@@ -1,0 +1,15 @@
+[DEPRECATION WARNING]: Ansible will require Python 3.8 or newer on the 
+controller starting with Ansible 2.12. Current version: 3.6.8 
+(v3.6.8:3c6b436a57, Dec 24 2018, 02:04:31) [GCC 4.2.1 Compatible Apple LLVM 6.0
+ (clang-600.0.57)]. This feature will be removed from ansible-core in version 
+2.12. Deprecation warnings can be disabled by setting 
+deprecation_warnings=False in ansible.cfg.
+
+PLAY [This is a hello word example] ********************************************
+
+TASK [Gathering Facts] *********************************************************
+fatal: [121.37.110.96]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: Warning: Permanently added '121.37.110.96' (ED25519) to the list of known hosts.\r\nzyc@121.37.110.96: Permission denied (publickey,gssapi-keyex,gssapi-with-mic,password).", "unreachable": true}
+
+PLAY RECAP *********************************************************************
+121.37.110.96              : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+

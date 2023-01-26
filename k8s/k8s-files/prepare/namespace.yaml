@@ -1,0 +1,71 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dev
+  labels:
+    app.kubernetes.io/name: dev
+    app.kubernetes.io/instance: dev
+    environment: dev
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: test
+  labels:
+    app.kubernetes.io/name: test
+    app.kubernetes.io/instance: test
+    environment: test
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: production
+  labels:
+    app.kubernetes.io/name: production
+    app.kubernetes.io/instance: production
+    environment: production
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: production-1
+  labels:
+    app.kubernetes.io/name: production-1
+    app.kubernetes.io/instance: production-1
+    environment: production
+
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: production-2
+  labels:
+    app.kubernetes.io/name: production-2
+    app.kubernetes.io/instance: production-2
+    environment: production
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: staging
+  labels:
+    app.kubernetes.io/name: staging
+    app.kubernetes.io/instance: staging
+    environment: staging
+
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: testing
+  labels:
+    app.kubernetes.io/name: testing
+    app.kubernetes.io/instance: testing
+    environment: testing

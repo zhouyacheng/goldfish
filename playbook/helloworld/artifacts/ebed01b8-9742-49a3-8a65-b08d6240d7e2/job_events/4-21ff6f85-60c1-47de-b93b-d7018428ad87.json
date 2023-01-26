@@ -1,0 +1,1 @@
+{"event": "verbose", "uuid": "21ff6f85-60c1-47de-b93b-d7018428ad87", "counter": 4, "stdout": " (clang-600.0.57)]. This feature will be removed from ansible-core in version ", "start_line": 3, "end_line": 4, "runner_ident": "ebed01b8-9742-49a3-8a65-b08d6240d7e2", "created": "2023-01-07T07:09:43.256864"}

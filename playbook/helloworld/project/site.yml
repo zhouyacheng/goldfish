@@ -1,0 +1,12 @@
+---
+- name: This is a hello word example
+  hosts: all
+  tasks:
+    - name: print hello world
+      debug:
+        msg: hello {{ inventory_hostname }}
+
+    - name: echo
+      shell: sleep 3
+      tags:
+        - test

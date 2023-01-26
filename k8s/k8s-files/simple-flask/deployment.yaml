@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: simple-flask
+  name: simple-flask
+  namespace: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simple-flask
+  template:
+    metadata:
+      labels:
+        app: simple-flask
+    spec:
+      containers:
+      - image: registry.cn-beijing.aliyuncs.com/zyc1013/public:flask-hello-dockerv0.0.3
+        imagePullPolicy: IfNotPresent
+        name: simple-flask
+        env:
+          - name: CONTENT
+            value: yc123
+        ports:
+          - containerPort: 50001

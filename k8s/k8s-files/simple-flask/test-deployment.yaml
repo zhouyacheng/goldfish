@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+  labels:
+    app: yc
+  name: yc
+  namespace: testing
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: yc
+  template:
+    metadata:
+      labels:
+        app: yc
+    spec:
+      containers:
+      - image: registry.cn-beijing.aliyuncs.com/zyc1013/public:flask-hello-dockerv0.0.4
+        imagePullPolicy: IfNotPresent
+        name: yc
+        resources:
+          limits:
+            cpu: 300m
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        env:
+          - name: CONTENT1
+            value: yc2022012003
+          - name: CONTENT2
+            value: yc2022012004
+        ports:
+          - containerPort: 50001

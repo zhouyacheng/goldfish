@@ -1,0 +1,21 @@
+[DEPRECATION WARNING]: Ansible will require Python 3.8 or newer on the 
+controller starting with Ansible 2.12. Current version: 3.6.8 
+(v3.6.8:3c6b436a57, Dec 24 2018, 02:04:31) [GCC 4.2.1 Compatible Apple LLVM 6.0
+ (clang-600.0.57)]. This feature will be removed from ansible-core in version 
+2.12. Deprecation warnings can be disabled by setting 
+deprecation_warnings=False in ansible.cfg.
+[WARNING]: Unable to parse
+/Users/zyc/PycharmProjects/codebook/playbook/helloworld/project/116.204.121.117
+as an inventory source
+[WARNING]: Unable to parse
+/Users/zyc/PycharmProjects/codebook/playbook/helloworld/project/121.37.110.96
+as an inventory source
+[WARNING]: No inventory was parsed, only implicit localhost is available
+[WARNING]: provided hosts list is empty, only localhost is available. Note that
+the implicit localhost does not match 'all'
+
+PLAY [This is a hello word example] ********************************************
+skipping: no hosts matched
+
+PLAY RECAP *********************************************************************
+

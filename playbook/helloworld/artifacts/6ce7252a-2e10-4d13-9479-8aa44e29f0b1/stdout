@@ -1,0 +1,29 @@
+[DEPRECATION WARNING]: Ansible will require Python 3.8 or newer on the 
+controller starting with Ansible 2.12. Current version: 3.6.8 
+(v3.6.8:3c6b436a57, Dec 24 2018, 02:04:31) [GCC 4.2.1 Compatible Apple LLVM 6.0
+ (clang-600.0.57)]. This feature will be removed from ansible-core in version 
+2.12. Deprecation warnings can be disabled by setting 
+deprecation_warnings=False in ansible.cfg.
+
+PLAY [This is a hello word example] ********************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [116.204.121.117]
+ok: [121.37.110.96]
+
+TASK [print hello world] *******************************************************
+ok: [116.204.121.117] => {
+    "msg": "hello 116.204.121.117"
+}
+ok: [121.37.110.96] => {
+    "msg": "hello 121.37.110.96"
+}
+
+TASK [echo] ********************************************************************
+changed: [116.204.121.117]
+changed: [121.37.110.96]
+
+PLAY RECAP *********************************************************************
+116.204.121.117            : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+121.37.110.96              : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

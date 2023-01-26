@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+  labels:
+    app: hello-minikube
+  name: hello-minikube
+  namespace: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-minikube
+  template:
+    metadata:
+      labels:
+        app: hello-minikube
+    spec:
+      containers:
+      - image: kicbase/echo-server:1.0
+        imagePullPolicy: IfNotPresent
+        name: echo-server

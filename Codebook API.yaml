@@ -1,0 +1,2861 @@
+openapi: 3.0.3
+info:
+  title: Codebook API
+  version: 1.0.0
+  description: A simple api
+paths:
+  /api/iac/period/:
+    get:
+      operationId: iac_period_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - iac
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPeriodTaskSummaryModelList'
+          description: ''
+    post:
+      operationId: iac_period_create
+      tags:
+      - iac
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PeriodTaskSummaryModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PeriodTaskSummaryModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PeriodTaskSummaryModel'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PeriodTaskSummaryModel'
+          description: ''
+  /api/iac/period/{id}/:
+    get:
+      operationId: iac_period_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this period task.
+        required: true
+      tags:
+      - iac
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PeriodTaskSummaryModel'
+          description: ''
+    put:
+      operationId: iac_period_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this period task.
+        required: true
+      tags:
+      - iac
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PeriodTaskSummaryModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PeriodTaskSummaryModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PeriodTaskSummaryModel'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PeriodTaskSummaryModel'
+          description: ''
+  /api/iac/release/{id}/:
+    get:
+      operationId: iac_release_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this release.
+        required: true
+      tags:
+      - iac
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReleaseModel'
+          description: ''
+  /api/iac/repository/:
+    get:
+      operationId: iac_repository_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - iac
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedRepositoryModelList'
+          description: ''
+    post:
+      operationId: iac_repository_create
+      tags:
+      - iac
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RepositoryModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RepositoryModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RepositoryModel'
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryModel'
+          description: ''
+  /api/iac/repository/{id}/:
+    get:
+      operationId: iac_repository_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this repository.
+        required: true
+      tags:
+      - iac
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryModel'
+          description: ''
+    put:
+      operationId: iac_repository_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this repository.
+        required: true
+      tags:
+      - iac
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RepositoryModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RepositoryModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RepositoryModel'
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryModel'
+          description: ''
+  /api/iac/repository/{id}/releases/:
+    get:
+      operationId: iac_repository_releases_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this repository.
+        required: true
+      tags:
+      - iac
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryModel'
+          description: ''
+    put:
+      operationId: iac_repository_releases_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this repository.
+        required: true
+      tags:
+      - iac
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RepositoryModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RepositoryModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RepositoryModel'
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryModel'
+          description: ''
+  /api/iac/repository/{id}/webhook/:
+    get:
+      operationId: iac_repository_webhook_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this repository.
+        required: true
+      tags:
+      - iac
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryModel'
+          description: ''
+    post:
+      operationId: iac_repository_webhook_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this repository.
+        required: true
+      tags:
+      - iac
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RepositoryModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RepositoryModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RepositoryModel'
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryModel'
+          description: ''
+    put:
+      operationId: iac_repository_webhook_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this repository.
+        required: true
+      tags:
+      - iac
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RepositoryModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RepositoryModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RepositoryModel'
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryModel'
+          description: ''
+  /api/iac/task/:
+    get:
+      operationId: iac_task_list
+      parameters:
+      - in: query
+        name: create_time
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: id
+        schema:
+          type: integer
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - iac
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedTaskModelList'
+          description: ''
+    post:
+      operationId: iac_task_create
+      tags:
+      - iac
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TaskModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TaskModel'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskModel'
+          description: ''
+  /api/iac/task/{id}/:
+    get:
+      operationId: iac_task_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this task.
+        required: true
+      tags:
+      - iac
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskModel'
+          description: ''
+    put:
+      operationId: iac_task_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this task.
+        required: true
+      tags:
+      - iac
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TaskModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TaskModel'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskModel'
+          description: ''
+  /api/iac/task/{id}/stats/:
+    get:
+      operationId: iac_task_stats_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this task.
+        required: true
+      tags:
+      - iac
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskModel'
+          description: ''
+  /api/iac/taskevent/:
+    get:
+      operationId: iac_taskevent_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - iac
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedTaskEventModelList'
+          description: ''
+  /api/iac/taskevent/{id}/:
+    get:
+      operationId: iac_taskevent_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this task event.
+        required: true
+      tags:
+      - iac
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskEventModel'
+          description: ''
+  /api/iac/template/:
+    get:
+      operationId: iac_template_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - iac
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedTemplateModelList'
+          description: ''
+    post:
+      operationId: iac_template_create
+      tags:
+      - iac
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TemplateModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TemplateModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TemplateModel'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateModel'
+          description: ''
+  /api/iac/template/{id}/:
+    get:
+      operationId: iac_template_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this template.
+        required: true
+      tags:
+      - iac
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateModel'
+          description: ''
+    put:
+      operationId: iac_template_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this template.
+        required: true
+      tags:
+      - iac
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TemplateModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TemplateModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TemplateModel'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateModel'
+          description: ''
+  /api/k8s/env/:
+    get:
+      operationId: k8s_env_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - k8s
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedProjectEnvModelList'
+          description: ''
+    post:
+      operationId: k8s_env_create
+      tags:
+      - k8s
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectEnvModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProjectEnvModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProjectEnvModel'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectEnvModel'
+          description: ''
+  /api/k8s/env/{id}/:
+    get:
+      operationId: k8s_env_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this project env.
+        required: true
+      tags:
+      - k8s
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectEnvModel'
+          description: ''
+    put:
+      operationId: k8s_env_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this project env.
+        required: true
+      tags:
+      - k8s
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectEnvModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProjectEnvModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProjectEnvModel'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectEnvModel'
+          description: ''
+  /api/k8s/pipeline/:
+    get:
+      operationId: k8s_pipeline_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - k8s
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPipelineModelList'
+          description: ''
+    post:
+      operationId: k8s_pipeline_create
+      tags:
+      - k8s
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PipelineModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PipelineModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PipelineModel'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PipelineModel'
+          description: ''
+  /api/k8s/pipeline/{id}/:
+    get:
+      operationId: k8s_pipeline_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this pipeline.
+        required: true
+      tags:
+      - k8s
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PipelineModel'
+          description: ''
+    put:
+      operationId: k8s_pipeline_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this pipeline.
+        required: true
+      tags:
+      - k8s
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PipelineModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PipelineModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PipelineModel'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PipelineModel'
+          description: ''
+  /api/k8s/pipeline/{id}/reorder/:
+    put:
+      operationId: k8s_pipeline_reorder_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this pipeline.
+        required: true
+      tags:
+      - k8s
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PipelineModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PipelineModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PipelineModel'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PipelineModel'
+          description: ''
+  /api/k8s/project/:
+    get:
+      operationId: k8s_project_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - k8s
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedProjectModelList'
+          description: ''
+    post:
+      operationId: k8s_project_create
+      tags:
+      - k8s
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProjectModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProjectModel'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectModel'
+          description: ''
+  /api/k8s/project/{id}/:
+    get:
+      operationId: k8s_project_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this project.
+        required: true
+      tags:
+      - k8s
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectModel'
+          description: ''
+    put:
+      operationId: k8s_project_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this project.
+        required: true
+      tags:
+      - k8s
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProjectModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProjectModel'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectModel'
+          description: ''
+  /api/k8s/releasetask/:
+    get:
+      operationId: k8s_releasetask_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - k8s
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedReleaseTaskModelList'
+          description: ''
+    post:
+      operationId: k8s_releasetask_create
+      tags:
+      - k8s
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReleaseTaskModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ReleaseTaskModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ReleaseTaskModel'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReleaseTaskModel'
+          description: ''
+  /api/k8s/releasetask/{id}/:
+    get:
+      operationId: k8s_releasetask_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this release task.
+        required: true
+      tags:
+      - k8s
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReleaseTaskModel'
+          description: ''
+    put:
+      operationId: k8s_releasetask_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this release task.
+        required: true
+      tags:
+      - k8s
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReleaseTaskModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ReleaseTaskModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ReleaseTaskModel'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReleaseTaskModel'
+          description: ''
+  /api/k8s/releasetask/{id}/history/:
+    get:
+      operationId: k8s_releasetask_history_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this release task.
+        required: true
+      tags:
+      - k8s
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReleaseTaskModel'
+          description: ''
+  /api/k8s/releasetask/{id}/progress/:
+    get:
+      operationId: k8s_releasetask_progress_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this release task.
+        required: true
+      tags:
+      - k8s
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReleaseTaskModel'
+          description: ''
+  /api/k8s/resource/:
+    post:
+      operationId: k8s_resource_create
+      tags:
+      - k8s
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectResourceModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProjectResourceModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProjectResourceModel'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResourceModel'
+          description: ''
+  /api/k8s/resource/{id}/:
+    get:
+      operationId: k8s_resource_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this project resource.
+        required: true
+      tags:
+      - k8s
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResourceModel'
+          description: ''
+    put:
+      operationId: k8s_resource_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this project resource.
+        required: true
+      tags:
+      - k8s
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectResourceModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProjectResourceModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProjectResourceModel'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResourceModel'
+          description: ''
+  /api/k8s/resource/{project_id}/{stage_id}/:
+    get:
+      operationId: k8s_resource_retrieve_2
+      parameters:
+      - in: path
+        name: project_id
+        schema:
+          type: string
+          pattern: ^\d+$
+        required: true
+      - in: path
+        name: stage_id
+        schema:
+          type: string
+          pattern: ^\d+$
+        required: true
+      tags:
+      - k8s
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResourceModel'
+          description: ''
+  /api/k8s/stage/:
+    get:
+      operationId: k8s_stage_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - k8s
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedStageModelList'
+          description: ''
+    post:
+      operationId: k8s_stage_create
+      tags:
+      - k8s
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StageModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/StageModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/StageModel'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StageModel'
+          description: ''
+  /api/k8s/stage/{id}/:
+    get:
+      operationId: k8s_stage_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this stage.
+        required: true
+      tags:
+      - k8s
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StageModel'
+          description: ''
+    put:
+      operationId: k8s_stage_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this stage.
+        required: true
+      tags:
+      - k8s
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StageModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/StageModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/StageModel'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StageModel'
+          description: ''
+  /api/login/:
+    post:
+      operationId: login_create
+      tags:
+      - login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Authorization'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Authorization'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Authorization'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Authorization'
+          description: ''
+  /api/logout/:
+    get:
+      operationId: logout_retrieve
+      tags:
+      - logout
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          description: No response body
+  /api/token/:
+    post:
+      operationId: token_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObtainPair'
+          description: ''
+  /api/token/refresh:
+    post:
+      operationId: token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+components:
+  schemas:
+    AuthorModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          title: 用户名
+          description: 必填；长度为150个字符或以下；只能包含字母、数字、特殊字符“@”、“.”、“-”和“_”。
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+      required:
+      - id
+      - username
+    Authorization:
+      type: object
+      properties:
+        username:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        token:
+          type: string
+          readOnly: true
+          maxLength: 40
+        expired_time:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - expired_time
+      - password
+      - token
+      - username
+    PaginatedPeriodTaskSummaryModelList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        maxsize:
+          type: integer
+          example: 123
+        page:
+          type: integer
+          example: 123
+        size:
+          type: integer
+          example: 123
+        num_pages:
+          type: integer
+          example: 123
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/PeriodTaskSummaryModel'
+    PaginatedPipelineModelList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        maxsize:
+          type: integer
+          example: 123
+        page:
+          type: integer
+          example: 123
+        size:
+          type: integer
+          example: 123
+        num_pages:
+          type: integer
+          example: 123
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/PipelineModel'
+    PaginatedProjectEnvModelList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        maxsize:
+          type: integer
+          example: 123
+        page:
+          type: integer
+          example: 123
+        size:
+          type: integer
+          example: 123
+        num_pages:
+          type: integer
+          example: 123
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectEnvModel'
+    PaginatedProjectModelList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        maxsize:
+          type: integer
+          example: 123
+        page:
+          type: integer
+          example: 123
+        size:
+          type: integer
+          example: 123
+        num_pages:
+          type: integer
+          example: 123
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectModel'
+    PaginatedReleaseTaskModelList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        maxsize:
+          type: integer
+          example: 123
+        page:
+          type: integer
+          example: 123
+        size:
+          type: integer
+          example: 123
+        num_pages:
+          type: integer
+          example: 123
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReleaseTaskModel'
+    PaginatedRepositoryModelList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        maxsize:
+          type: integer
+          example: 123
+        page:
+          type: integer
+          example: 123
+        size:
+          type: integer
+          example: 123
+        num_pages:
+          type: integer
+          example: 123
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/RepositoryModel'
+    PaginatedStageModelList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        maxsize:
+          type: integer
+          example: 123
+        page:
+          type: integer
+          example: 123
+        size:
+          type: integer
+          example: 123
+        num_pages:
+          type: integer
+          example: 123
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/StageModel'
+    PaginatedTaskEventModelList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        maxsize:
+          type: integer
+          example: 123
+        page:
+          type: integer
+          example: 123
+        size:
+          type: integer
+          example: 123
+        num_pages:
+          type: integer
+          example: 123
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaskEventModel'
+    PaginatedTaskModelList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        maxsize:
+          type: integer
+          example: 123
+        page:
+          type: integer
+          example: 123
+        size:
+          type: integer
+          example: 123
+        num_pages:
+          type: integer
+          example: 123
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaskModel'
+    PaginatedTemplateModelList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        maxsize:
+          type: integer
+          example: 123
+        page:
+          type: integer
+          example: 123
+        size:
+          type: integer
+          example: 123
+        num_pages:
+          type: integer
+          example: 123
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateModel'
+    PeriodTaskSummaryModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        created_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        updated_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        deleted_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        interval:
+          type: string
+          readOnly: true
+        crontab:
+          type: string
+          readOnly: true
+        release:
+          $ref: '#/components/schemas/ReleaseModelSummary'
+        is_deleted:
+          type: boolean
+          title: 逻辑删除
+        orders:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          title: 显示顺序
+        create_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 创建时间
+        update_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 修改时间
+        delete_time:
+          type: string
+          format: date-time
+          nullable: true
+          title: 删除时间
+        playbook:
+          type: string
+          title: Playbook目录
+          maxLength: 50
+        role:
+          type: string
+          nullable: true
+          maxLength: 50
+        inventories:
+          type: string
+          nullable: true
+          title: 主机清单
+        envvars:
+          type: string
+          nullable: true
+          title: 环境变量
+        extravars:
+          type: string
+          nullable: true
+          title: 额外变量
+        forks:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          title: 线程数
+        timeout:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          title: 超时时间(秒)
+        name:
+          type: string
+          maxLength: 200
+        enabled:
+          type: boolean
+      required:
+      - create_time
+      - created_by
+      - crontab
+      - deleted_by
+      - id
+      - interval
+      - name
+      - release
+      - update_time
+      - updated_by
+    PipelineModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        created_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        updated_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        deleted_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        is_deleted:
+          type: boolean
+          title: 逻辑删除
+        orders:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          title: 显示顺序
+        create_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 创建时间
+        update_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 修改时间
+        delete_time:
+          type: string
+          format: date-time
+          nullable: true
+          title: 删除时间
+        name:
+          type: string
+          maxLength: 128
+      required:
+      - create_time
+      - created_by
+      - deleted_by
+      - id
+      - name
+      - update_time
+      - updated_by
+    PipelineSummaryModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 128
+      required:
+      - id
+      - name
+    ProjectEnvModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        created_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        updated_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        deleted_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        project:
+          $ref: '#/components/schemas/ProjectSummaryModel'
+        stage:
+          $ref: '#/components/schemas/StageModel'
+        is_deleted:
+          type: boolean
+          title: 逻辑删除
+        orders:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          title: 显示顺序
+        create_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 创建时间
+        update_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 修改时间
+        delete_time:
+          type: string
+          format: date-time
+          nullable: true
+          title: 删除时间
+        name:
+          type: string
+          nullable: true
+          maxLength: 64
+        value:
+          type: string
+          nullable: true
+        envs:
+          type: object
+          additionalProperties: {}
+          nullable: true
+      required:
+      - create_time
+      - created_by
+      - deleted_by
+      - id
+      - project
+      - stage
+      - update_time
+      - updated_by
+    ProjectModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        created_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        updated_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        deleted_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        pipeline:
+          allOf:
+          - $ref: '#/components/schemas/PipelineSummaryModel'
+          readOnly: true
+        is_deleted:
+          type: boolean
+          default: false
+          title: 逻辑删除
+        orders:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          title: 显示顺序
+        create_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 创建时间
+        update_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 修改时间
+        delete_time:
+          type: string
+          format: date-time
+          nullable: true
+          title: 删除时间
+        name:
+          type: string
+          maxLength: 64
+        url:
+          type: string
+          maxLength: 256
+        build_template:
+          type: string
+        deploy_template:
+          type: string
+      required:
+      - create_time
+      - created_by
+      - deleted_by
+      - deploy_template
+      - id
+      - name
+      - pipeline
+      - update_time
+      - updated_by
+      - url
+    ProjectResourceModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        created_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        updated_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        deleted_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        project:
+          $ref: '#/components/schemas/ProjectSummaryModel'
+        stage:
+          $ref: '#/components/schemas/StageModel'
+        is_deleted:
+          type: boolean
+          title: 逻辑删除
+        orders:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          title: 显示顺序
+        create_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 创建时间
+        update_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 修改时间
+        delete_time:
+          type: string
+          format: date-time
+          nullable: true
+          title: 删除时间
+        limits_cpu:
+          type: string
+          maxLength: 64
+        limits_memory:
+          type: string
+          maxLength: 64
+        requests_cpu:
+          type: string
+          nullable: true
+          maxLength: 64
+        requests_memory:
+          type: string
+          nullable: true
+          maxLength: 64
+        replicas:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        backoff_limit:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        active_deadline_seconds:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        containerPort:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+      required:
+      - create_time
+      - created_by
+      - deleted_by
+      - id
+      - limits_cpu
+      - limits_memory
+      - project
+      - stage
+      - update_time
+      - updated_by
+    ProjectSummaryModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 64
+      required:
+      - id
+      - name
+    ReleaseModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        created_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        updated_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        deleted_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        owner:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        version_name:
+          type: string
+          readOnly: true
+        is_deleted:
+          type: boolean
+          title: 逻辑删除
+        orders:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          title: 显示顺序
+        create_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 创建时间
+        update_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 修改时间
+        delete_time:
+          type: string
+          format: date-time
+          nullable: true
+          title: 删除时间
+        archive_url:
+          type: string
+          format: uri
+          title: Playbook目录
+          maxLength: 200
+        major:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          title: 主版本
+        minor:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          title: 次版本
+        micro:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          title: 小版本
+        commit:
+          type: string
+          title: 提交id
+          maxLength: 40
+        repository:
+          type: integer
+          title: 仓库
+      required:
+      - archive_url
+      - create_time
+      - created_by
+      - deleted_by
+      - id
+      - major
+      - micro
+      - minor
+      - name
+      - owner
+      - repository
+      - update_time
+      - updated_by
+      - version_name
+    ReleaseModelSummary:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        created_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        updated_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        deleted_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        repository:
+          $ref: '#/components/schemas/RepositorySummaryModel'
+        owner:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        version_name:
+          type: string
+          readOnly: true
+        is_deleted:
+          type: boolean
+          title: 逻辑删除
+        orders:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          title: 显示顺序
+        create_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 创建时间
+        update_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 修改时间
+        delete_time:
+          type: string
+          format: date-time
+          nullable: true
+          title: 删除时间
+        archive_url:
+          type: string
+          format: uri
+          title: Playbook目录
+          maxLength: 200
+        major:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          title: 主版本
+        minor:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          title: 次版本
+        micro:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          title: 小版本
+        commit:
+          type: string
+          title: 提交id
+          maxLength: 40
+      required:
+      - archive_url
+      - create_time
+      - created_by
+      - deleted_by
+      - id
+      - major
+      - micro
+      - minor
+      - name
+      - owner
+      - repository
+      - update_time
+      - updated_by
+      - version_name
+    ReleaseTaskModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        created_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        updated_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        deleted_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        project:
+          $ref: '#/components/schemas/ProjectSummaryModel'
+        current:
+          $ref: '#/components/schemas/StageModel'
+        is_deleted:
+          type: boolean
+          title: 逻辑删除
+        orders:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          title: 显示顺序
+        create_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 创建时间
+        update_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 修改时间
+        delete_time:
+          type: string
+          format: date-time
+          nullable: true
+          title: 删除时间
+        version:
+          type: string
+          maxLength: 128
+        state:
+          allOf:
+          - $ref: '#/components/schemas/ReleaseTaskModelStateEnum'
+          minimum: -2147483648
+          maximum: 2147483647
+        render_template:
+          type: string
+          nullable: true
+        observed_generation:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          nullable: true
+      required:
+      - create_time
+      - created_by
+      - current
+      - deleted_by
+      - id
+      - project
+      - update_time
+      - updated_by
+      - version
+    ReleaseTaskModelStateEnum:
+      enum:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      type: integer
+    RepositoryModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        is_deleted:
+          type: boolean
+          default: false
+          title: 逻辑删除
+        orders:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          title: 显示顺序
+        create_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 创建时间
+        update_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 修改时间
+        url:
+          type: string
+          format: uri
+          title: Gitea url
+          maxLength: 200
+        owner:
+          type: string
+          title: 仓库属主
+          maxLength: 50
+        delete_time:
+          type: string
+          format: date-time
+          nullable: true
+          title: 删除时间
+        name:
+          type: string
+          title: 仓库名称
+          maxLength: 50
+        created_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        updated_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        deleted_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        display_name:
+          type: string
+          readOnly: true
+        token:
+          type: string
+          title: Gitea token
+          maxLength: 40
+        provider_class:
+          type: string
+          title: 指定git仓库使用对应的provider来获取仓库信息
+          maxLength: 128
+        webhook_url:
+          type: string
+          readOnly: true
+      required:
+      - create_time
+      - created_by
+      - deleted_by
+      - display_name
+      - id
+      - update_time
+      - updated_by
+      - webhook_url
+    RepositorySummaryModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: 仓库名称
+          maxLength: 50
+        display_name:
+          type: string
+          readOnly: true
+      required:
+      - display_name
+      - id
+    StageModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        created_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        updated_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        deleted_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        pipeline:
+          allOf:
+          - $ref: '#/components/schemas/PipelineSummaryModel'
+          readOnly: true
+        is_deleted:
+          type: boolean
+          title: 逻辑删除
+        orders:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          title: 显示顺序
+        create_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 创建时间
+        update_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 修改时间
+        delete_time:
+          type: string
+          format: date-time
+          nullable: true
+          title: 删除时间
+        stage_type:
+          allOf:
+          - $ref: '#/components/schemas/StageTypeEnum'
+          minimum: -2147483648
+          maximum: 2147483647
+        name:
+          type: string
+          maxLength: 64
+        seq:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        namespace:
+          type: string
+          maxLength: 256
+        kubeconfig_content:
+          type: string
+          nullable: true
+        context:
+          type: string
+          nullable: true
+      required:
+      - create_time
+      - created_by
+      - deleted_by
+      - id
+      - name
+      - pipeline
+      - seq
+      - stage_type
+      - update_time
+      - updated_by
+    StageTypeEnum:
+      enum:
+      - 0
+      - 1
+      type: integer
+    TaskEventModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        created_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        updated_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        deleted_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        create_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 创建时间
+        update_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 修改时间
+        delete_time:
+          type: string
+          format: date-time
+          nullable: true
+          title: 删除时间
+        state:
+          allOf:
+          - $ref: '#/components/schemas/TaskEventModelStateEnum'
+          minimum: -2147483648
+          maximum: 2147483647
+        play:
+          type: string
+          maxLength: 512
+        mission:
+          type: string
+          maxLength: 512
+        host:
+          type: string
+          maxLength: 512
+        ip:
+          type: string
+          maxLength: 512
+        start:
+          type: string
+          format: date-time
+        end:
+          type: string
+          format: date-time
+        duration:
+          type: number
+          format: float
+        changed:
+          type: boolean
+        detail:
+          type: object
+          additionalProperties: {}
+        play_pattern:
+          type: string
+          maxLength: 128
+        counter:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        task:
+          type: integer
+      required:
+      - changed
+      - counter
+      - create_time
+      - created_by
+      - deleted_by
+      - detail
+      - duration
+      - end
+      - host
+      - id
+      - ip
+      - mission
+      - play
+      - play_pattern
+      - start
+      - state
+      - task
+      - update_time
+      - updated_by
+    TaskEventModelStateEnum:
+      enum:
+      - 0
+      - 1
+      - 2
+      - 3
+      type: integer
+    TaskModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        create_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 创建时间
+        update_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 修改时间
+        delete_time:
+          type: string
+          format: date-time
+          nullable: true
+          title: 删除时间
+        release:
+          type: integer
+        playbook:
+          type: string
+          title: Playbook目录
+          maxLength: 50
+        role:
+          type: string
+          nullable: true
+          maxLength: 50
+        envvars:
+          type: string
+          nullable: true
+          title: 环境变量
+        extravars:
+          type: string
+          nullable: true
+          title: 额外变量
+        forks:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          title: 线程数
+        timeout:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          title: 超时时间(秒)
+        state:
+          allOf:
+          - $ref: '#/components/schemas/TaskModelStateEnum'
+          readOnly: true
+        output:
+          type: string
+          readOnly: true
+          nullable: true
+        created_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        updated_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        deleted_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        inventories:
+          type: string
+          nullable: true
+          title: 主机清单
+      required:
+      - create_time
+      - created_by
+      - deleted_by
+      - id
+      - output
+      - release
+      - state
+      - update_time
+      - updated_by
+    TaskModelStateEnum:
+      enum:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      type: integer
+    TemplateModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        created_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        updated_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        deleted_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        release:
+          $ref: '#/components/schemas/ReleaseModelSummary'
+        is_deleted:
+          type: boolean
+          title: 逻辑删除
+        orders:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          title: 显示顺序
+        create_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 创建时间
+        update_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 修改时间
+        delete_time:
+          type: string
+          format: date-time
+          nullable: true
+          title: 删除时间
+        playbook:
+          type: string
+          title: Playbook目录
+          maxLength: 50
+        role:
+          type: string
+          nullable: true
+          maxLength: 50
+        inventories:
+          type: string
+          nullable: true
+          title: 主机清单
+        envvars:
+          type: string
+          nullable: true
+          title: 环境变量
+        extravars:
+          type: string
+          nullable: true
+          title: 额外变量
+        forks:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          title: 线程数
+        timeout:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          title: 超时时间(秒)
+        name:
+          type: string
+          title: 模板名称
+          maxLength: 128
+        description:
+          type: string
+          nullable: true
+          title: 描述
+          maxLength: 128
+      required:
+      - create_time
+      - created_by
+      - deleted_by
+      - id
+      - name
+      - release
+      - update_time
+      - updated_by
+    TokenObtainPair:
+      type: object
+      properties:
+        username:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          readOnly: true
+      required:
+      - access
+      - password
+      - refresh
+      - username
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          writeOnly: true
+      required:
+      - access
+      - refresh
+  securitySchemes:
+    BearerTokenAuthentication:
+      type: http
+      scheme: bearer

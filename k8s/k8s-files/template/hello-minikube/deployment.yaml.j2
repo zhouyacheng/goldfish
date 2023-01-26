@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+  labels:
+    app: {{ deploy_name }}
+  name: {{ deploy_name }}
+  namespace: {{ namespace }}
+spec:
+  replicas: {{ res.replicas }}
+  selector:
+    matchLabels:
+      app: {{ deploy_name }}
+  template:
+    metadata:
+      labels:
+        app: {{ deploy_name }}
+    spec:
+      containers:
+      - image: {{ image_name if image_name else "registry.cn-beijing.aliyuncs.com/zyc1013/public:flask-hello-dockerv{}".format(image_version) }}
+        imagePullPolicy: IfNotPresent
+        name: {{ deploy_name }}
+        resources:
+          limits:
+            cpu: {{ res.limits_cpu }}
+            memory: {{ res.limits_memory }}
+          requests:
+            cpu: {{ res.requests_cpu }}
+            memory: {{ res.requests_memory }}
+        env:
+          {%- for item in env %}
+          - name: {{ item.name }}
+            value: "{{ item.value }}"
+          {%- endfor %}
+        ports:
+          - containerPort: {{ container_port }}
