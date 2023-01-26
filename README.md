@@ -1,5 +1,6 @@
 #### Overview
 - 自动化运维平台,智能化管理服务器及自定义流水线进行定制化的管理CI/CD
+- 第二版计划集成spark, 以local方式提交spark任务,接管从文件向数据库导入资产
 
 
 #### Architecture
