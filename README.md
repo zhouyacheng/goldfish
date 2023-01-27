@@ -3,7 +3,9 @@
 - 第二版计划集成spark, 以local方式提交spark任务,接管从文件向数据库导入资产
 
 
+
 #### Architecture
+
 | 组件                 | 版本   |
 | -------------------- | ------ |
 | Python               | 3.10.2 |
@@ -13,9 +15,12 @@
 | Django               | 4.0.3  |
 | Django RestframeWork | 3.13.1 |
 | Celery               | 5.2.3  |
+| Kubernetes           | 1.25   |
+
 
 
 #### Features
+
 1. 资产管理(CMDB)
 2. 远程连接跳板机对已注册到资产管理的服务器发送命令进行管理(jumpserver)
 3. Ansible集成, 支持playbook及role的模板定义. 模板文件集成git管理,代码托管在gitea平台,每次执行任务时自动从gitea平台下载对应git tag的模板代码执行ansible任务
@@ -26,23 +31,34 @@
 8. 自定义流水线支持自定义CI/CD,每条流水线按照stage拆分为不同阶段(例: 打包,测试环境发布,生产环境发布...)
 9. CI/CD流水线任务通过celery后台运行及监控任务执行状态及报错
 
+
+
 #### API Local Doc
+
 [Codebook API.yaml](Codebook%20API.yaml)
 
+
+
 #### API Web Doc
+
 `http://127.0.0.1:8000/doc/swagger`
 ![img.png](img.png)
 ![img_1.png](img_1.png)
 ![img_2.png](img_2.png)
 ![img_3.png](img_3.png)![img_4.png](img_4.png)
 
+
+
 #### API AuthToken
+
   POST request `http://127.0.0.1:8000/api/login/`
 - body: {"username":"xxx", "password":"xxx"}
 - response: { "token": "e059222ff3a4469c987a1fcddc0f90b0", "expired_time": "2023-01-28T16:33:14.886134+08:00"}
 
 
+
 #### Configuration
+
 settings.py
 ```python
 DATABASES = {
@@ -129,13 +145,17 @@ JUMPSERVER_UPLOADS_DIR = BASE_DIR / "upload"
 ```
 
 
+
 #### Create User
+
 ```python
 python3 manage.py createsuperuser 
 ```
 
 
+
 #### Start Celery
+
 ```shell
 # 监听定时任务
 celery -A codebox beat  -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
