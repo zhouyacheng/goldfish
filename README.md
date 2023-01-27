@@ -127,7 +127,7 @@ CHANNEL_LAYERS = {
 }
 
 # kubernetes模板执行目录
-TEMPLATE_DIR = "/Users/zyc/PycharmProjects/codebook/k8s/k8s-files/template/hello-minikube"
+TEMPLATE_DIR = "/Users/zyc/PycharmProjects/goldfish/k8s/k8s-files/template/hello-minikube"
 
 
 MONGODB_DATABASES = {
