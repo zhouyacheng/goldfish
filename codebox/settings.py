@@ -152,11 +152,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     # 异常处理
     # 'EXCEPTION_HANDLER': 'utils.exceptions.global_exception_handler',
-    # 'EXCEPTION_HANDLER': 'codebook.utils.exceptions.custom_exception_handler',
+    # 'EXCEPTION_HANDLER': 'goldfish.utils.exceptions.custom_exception_handler',
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     # "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "DEFAULT_PAGINATION_CLASS": "common.paginations.CustomPageNumberPagination",
-    # "DEFAULT_PAGINATION_CLASS": "codebook.utils.paginations.CustomPageNumberPagination",
+    # "DEFAULT_PAGINATION_CLASS": "goldfish.utils.paginations.CustomPageNumberPagination",
     # "DEFAULT_PAGINATION_CLASS": "assistant.pagination.StandardResultSetPagination",
     "PAGE_SIZE": 10,
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -173,7 +173,7 @@ REST_FRAMEWORK = {
 }
 
 SPECTACULAR_SETTINGS = {
-    "TITLE": "DevOps API",
+    "TITLE": "goldfish API",
     "DESCRIPTION": "A simple api",
     "VERSION": "1.0.0",
     "SCHEMA_PATH_PREFIX": "^/api/",
@@ -280,7 +280,7 @@ CHANNEL_LAYERS = {
 }
 
 # k8s模板执行目录
-TEMPLATE_DIR = "/Users/zyc/PycharmProjects/codebook/k8s/k8s-files/template/hello-minikube"
+TEMPLATE_DIR = "/Users/zyc/PycharmProjects/goldfish/k8s/k8s-files/template/hello-minikube"
 
 
 MONGODB_DATABASES = {
