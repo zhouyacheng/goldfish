@@ -10,7 +10,7 @@ from django.db.models import Q
 from rest_framework.decorators import action
 from .serializers import *
 from .models import Project,ProjectEnv,Stage,ProjectResource,ReleaseTaskState,ReleaseTask,Pipeline,ReleaseTaskProgress
-from .runner import KubernetesRunner
+from .runner import KubernetesRunner,KubernetesConfigMapRunner
 
 
 class PipelineViewSet(GenericViewSet):
@@ -355,3 +355,61 @@ class ReleaseTaskViewSet(GenericViewSet):
         serializer = ReleaseTaskProgressModelSerializer(page, many=True)
 
         return self.get_paginated_response(serializer.data)
+
+
+class ConfigMapViewSet(GenericViewSet):
+    queryset = Configmap.objects.filter(is_deleted=0)
+    serializer_class = ConfigMapModelSerializer
+
+    def list(self, request:Request, *args, **kwargs):
+        queryset = self.get_queryset()
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
+    def create(self, request:Request, *args, **kwargs):
+        tmp_force = request.query_params.get("force")
+        force = True if tmp_force else False
+        serializer = ConfigMapCreationModelSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(created_by=request.user,updated_by=request.user)
+            instance: Configmap = serializer.instance
+            try:
+                configmap_runner_obj = KubernetesConfigMapRunner(instance,force).execute_configmap()
+                return Response(self.get_serializer(configmap_runner_obj).data, status=status.HTTP_201_CREATED)
+            except Exception as e:
+                return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+
+    def delete(self, request:Request, *args, **kwargs):
+        tmp_force = request.query_params.get("force")
+        force = True if tmp_force else False
+        instance = self.get_object()
+        instance.delete_time = timezone.now()
+        instance.is_deleted = 1
+        instance.deleted_by = request.user
+        instance.save()
+        try:
+            KubernetesConfigMapRunner(instance, force).execute_configmap(method="delete")
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Exception as e:
+            return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+    def update(self, request:Request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = ConfigMapMutationModelSerializer(instance=instance, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_206_PARTIAL_CONTENT)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+
+    def retrieve(self, request:Request, *args, **kwargs):
+        instance = self.get_object()
+        return Response(self.get_serializer(instance).data, status=status.HTTP_200_OK)

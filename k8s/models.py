@@ -163,3 +163,17 @@ class EnvSnapshot(Env):
 class ResourceSnapshot(Resource):
     stage = models.ForeignKey(ReleaseTaskProgress,on_delete=models.PROTECT,db_column="stage_id")
 
+
+class Service(BaseModel,DatetimeModel,AuthorModel,models.Model):
+    name = models.CharField(max_length=128,null=True)
+    template = models.TextField()
+    render_template = models.TextField(null=True)
+    is_template = models.BooleanField(default=False)
+
+
+
+class Configmap(BaseModel,DatetimeModel,AuthorModel,models.Model):
+    name = models.CharField(max_length=128,null=True)
+    template = models.TextField()
+    render_template = models.TextField(null=True)
+    is_template = models.BooleanField(default=False)

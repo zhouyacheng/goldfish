@@ -10,6 +10,7 @@ router.register("env",views.ProjectEnvViewSet,basename="env")
 router.register("resource",views.ProjectResourceViewSet,basename="resource")
 router.register("stage",views.StageViewSet,basename="stage")
 router.register("releasetask",views.ReleaseTaskViewSet,basename="releasetask")
+router.register("configmap",views.ConfigMapViewSet,basename="configmap")
 
 
 urlpatterns = [

@@ -80,7 +80,9 @@ class KubernetesYamlClient(object):
             if e.status == 404:
                 return
 
-    def ensure(self, force=False):
+    def ensure(self, force=False ,method: str=""):
+        if method.lower() == "delete":
+            return self.delete()
         if self.get() is None:
             return self.create()
         try:

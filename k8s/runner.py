@@ -19,6 +19,8 @@ from .models import (
     ReleaseTaskProgress,
     EnvSnapshot,
     ResourceSnapshot,
+    Configmap,
+    Service,
 )
 
 
@@ -203,6 +205,7 @@ class KubernetesRunner(object):
         snapshot.active_deadline_seconds = origin.active_deadline_seconds
         snapshot.save()
 
+
     # def listen(self):
     #     config.load_kube_config()
     #     client = KubernetesYamlClient(ApiClient(), self.release_task.render_template)
@@ -222,3 +225,33 @@ class KubernetesRunner(object):
     #         except Exception as e:
     #             print(e)
     #             return
+
+
+
+class KubernetesConfigMapRunner(object):
+    def __init__(self, configmap_instance: Configmap, force: bool):
+        self.configmap_instance = configmap_instance
+        self.force = force
+        self.tmp_template = None
+        if self.configmap_instance.is_template == 1:
+            self.tmp_template = self.render()
+            self.configmap_instance.render_template = self.tmp_template
+        else:
+            self.tmp_template = self.configmap_instance.template
+
+
+    def render(self):
+        # todo 渲染configmap模板
+        pass
+
+    def execute_configmap(self, method: str=""):
+        config.load_kube_config()
+        client = KubernetesYamlClient(ApiClient(), self.configmap_instance.template)
+        try:
+            ret = client.ensure(force=self.force, method=method)
+            if not self.configmap_instance.name:
+                self.configmap_instance.name = ret.metadata.name
+            self.configmap_instance.save()
+        except Exception as e:
+            print(str(e))
+        return self.configmap_instance

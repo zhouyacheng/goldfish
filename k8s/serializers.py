@@ -16,6 +16,8 @@ from .models import (
     ReleaseTaskHistory,
     Pipeline,
     ReleaseTaskProgress,
+    Configmap,
+    Service,
 )
 from rest_framework.serializers import PrimaryKeyRelatedField
 
@@ -297,4 +299,49 @@ class ReleaseTaskProgressModelSerializer(
 ):
     class Meta:
         model = ReleaseTaskProgress
+        fields = "__all__"
+
+
+class ConfigMapModelSerializer(AuthorSummaryModelSerializer,
+    DateTimeModelSerializer,
+    BaseModelSerializer,
+    serializers.ModelSerializer,):
+
+    class Meta:
+        model = Configmap
+        fields = "__all__"
+
+
+class ConfigMapCreationModelSerializer(CreationSerializerMixin,ConfigMapModelSerializer,):
+
+    class Meta:
+        model = Configmap
+        fields = "__all__"
+
+
+class ConfigMapMutationModelSerializer(MutationSerializerMixin,ConfigMapModelSerializer,):
+
+    class Meta:
+        model = Configmap
+        fields = "__all__"
+
+class ServiceModelSerializer(AuthorSummaryModelSerializer,
+                               DateTimeModelSerializer,
+                               BaseModelSerializer,
+                               serializers.ModelSerializer, ):
+    class Meta:
+        model = Service
+        fields = "__all__"
+
+class ServiceCreationModelSerializer(CreationSerializerMixin,ServiceModelSerializer,):
+
+    class Meta:
+        model = Service
+        fields = "__all__"
+
+
+class ServiceMapMutationModelSerializer(MutationSerializerMixin,ServiceModelSerializer,):
+
+    class Meta:
+        model = Service
         fields = "__all__"
