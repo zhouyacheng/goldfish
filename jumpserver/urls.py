@@ -4,6 +4,7 @@ from rest_framework.routers import SimpleRouter
 
 urlpatterns = [
     path("upload/",views.upload),
+    path("uploadserver/",views.upload_server),
     path("uploadpkey/",views.private_key_upload),
     path("ssh/",views.remote_ssh),
 ]

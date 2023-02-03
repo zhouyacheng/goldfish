@@ -177,3 +177,18 @@ class Configmap(BaseModel,DatetimeModel,AuthorModel,models.Model):
     template = models.TextField()
     render_template = models.TextField(null=True)
     is_template = models.BooleanField(default=False)
+
+
+class CustomResourceDefinition(BaseModel,DatetimeModel,AuthorModel,models.Model):
+    name = models.CharField(max_length=128)
+    template = models.TextField()
+    render_template = models.TextField(null=True)
+    is_template = models.BooleanField(default=False)
+
+
+class CustomResource(BaseModel,DatetimeModel,AuthorModel,models.Model):
+    name = models.CharField(max_length=128)
+    template = models.TextField()
+    render_template = models.TextField(null=True)
+    is_template = models.BooleanField(default=False)
+    crd = models.ForeignKey(CustomResourceDefinition,on_delete=models.PROTECT,db_column="crd_id")

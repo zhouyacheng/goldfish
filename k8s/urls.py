@@ -11,6 +11,10 @@ router.register("resource",views.ProjectResourceViewSet,basename="resource")
 router.register("stage",views.StageViewSet,basename="stage")
 router.register("releasetask",views.ReleaseTaskViewSet,basename="releasetask")
 router.register("configmap",views.ConfigMapViewSet,basename="configmap")
+router.register("service",views.ServiceViewSet,basename="service")
+# CustomResourceDefinition
+router.register("crd",views.CustomResourceDefinitionViewSet,basename="crd")
+router.register("cr",views.CustomResourceViewSet,basename="cr")
 
 
 urlpatterns = [

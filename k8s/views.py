@@ -10,7 +10,7 @@ from django.db.models import Q
 from rest_framework.decorators import action
 from .serializers import *
 from .models import Project,ProjectEnv,Stage,ProjectResource,ReleaseTaskState,ReleaseTask,Pipeline,ReleaseTaskProgress
-from .runner import KubernetesRunner,KubernetesConfigMapRunner
+from .runner import KubernetesRunner,KubernetesBaseRunner,KubernetesCustomResourceRunner
 
 
 class PipelineViewSet(GenericViewSet):
@@ -377,10 +377,10 @@ class ConfigMapViewSet(GenericViewSet):
         force = True if tmp_force else False
         serializer = ConfigMapCreationModelSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save(created_by=request.user,updated_by=request.user)
+            serializer.save(created_by=request.user, updated_by=request.user)
             instance: Configmap = serializer.instance
             try:
-                configmap_runner_obj = KubernetesConfigMapRunner(instance,force).execute_configmap()
+                configmap_runner_obj = KubernetesBaseRunner(instance,force).execute()
                 return Response(self.get_serializer(configmap_runner_obj).data, status=status.HTTP_201_CREATED)
             except Exception as e:
                 return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
@@ -396,20 +396,227 @@ class ConfigMapViewSet(GenericViewSet):
         instance.deleted_by = request.user
         instance.save()
         try:
-            KubernetesConfigMapRunner(instance, force).execute_configmap(method="delete")
+            KubernetesBaseRunner(instance, force).execute(method="delete")
             return Response(status=status.HTTP_204_NO_CONTENT)
         except Exception as e:
             return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request:Request, *args, **kwargs):
+        tmp_force = request.query_params.get("force")
+        force = True if tmp_force else False
+        method = "update"
         instance = self.get_object()
         serializer = ConfigMapMutationModelSerializer(instance=instance, data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            return Response(serializer.data,status=status.HTTP_206_PARTIAL_CONTENT)
+            try:
+                KubernetesBaseRunner(instance, force).execute(method=method)
+                return Response(serializer.data, status=status.HTTP_206_PARTIAL_CONTENT)
+            except Exception as e:
+                return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
 
     def retrieve(self, request:Request, *args, **kwargs):
         instance = self.get_object()
         return Response(self.get_serializer(instance).data, status=status.HTTP_200_OK)
+
+class ServiceViewSet(GenericViewSet):
+    queryset = Service.objects.filter(is_deleted=0)
+    serializer_class = ServiceModelSerializer
+
+    def list(self, request:Request, *args, **kwargs):
+        queryset = self.get_queryset()
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
+    def create(self, request:Request, *args, **kwargs):
+        method = "create"
+        tmp_force = request.query_params.get("force")
+        force = True if tmp_force else False
+        serializer = ServiceCreationModelSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(created_by=request.user,updated_by=request.user)
+            instance: Service = serializer.instance
+            try:
+                configmap_runner_obj = KubernetesBaseRunner(instance,force).execute(method=method)
+                return Response(self.get_serializer(configmap_runner_obj).data, status=status.HTTP_201_CREATED)
+            except Exception as e:
+                return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+
+    def delete(self, request:Request, *args, **kwargs):
+        method = "delete"
+        tmp_force = request.query_params.get("force")
+        force = True if tmp_force else False
+        instance = self.get_object()
+        instance.delete_time = timezone.now()
+        instance.is_deleted = 1
+        instance.deleted_by = request.user
+        instance.save()
+        try:
+            KubernetesBaseRunner(instance, force).execute(method=method)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Exception as e:
+            return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+    def update(self, request:Request, *args, **kwargs):
+        method = "update"
+        tmp_force = request.query_params.get("force")
+        force = True if tmp_force else False
+        instance = self.get_object()
+        serializer = ServiceMutationModelSerializer(instance=instance, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            try:
+                KubernetesBaseRunner(instance, force).execute(method=method)
+                return Response(serializer.data,status=status.HTTP_206_PARTIAL_CONTENT)
+            except Exception as e:
+                return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+
+    def retrieve(self, request:Request, *args, **kwargs):
+        instance = self.get_object()
+        return Response(self.get_serializer(instance).data, status=status.HTTP_200_OK)
+
+
+class CustomResourceDefinitionViewSet(GenericViewSet):
+    queryset = CustomResourceDefinition.objects.filter(is_deleted=0)
+    serializer_class = CustomResourceDefinitionModelSerializer
+
+    def list(self, request:Request, *args, **kwargs):
+        queryset = self.get_queryset()
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
+    def create(self, request:Request, *args, **kwargs):
+        method = "create"
+        tmp_force = request.query_params.get("force")
+        force = True if tmp_force else False
+        serializer = CustomResourceDefinitionCreationModelSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(created_by=request.user, updated_by=request.user)
+            instance: CustomResourceDefinition = serializer.instance
+            try:
+                custom_resource_definition_runner_obj = KubernetesBaseRunner(instance,force).execute(method=method)
+                return Response(self.get_serializer(custom_resource_definition_runner_obj).data, status=status.HTTP_201_CREATED)
+            except Exception as e:
+                return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+
+    def delete(self, request:Request, *args, **kwargs):
+        method = "delete"
+        tmp_force = request.query_params.get("force")
+        force = True if tmp_force else False
+        instance = self.get_object()
+        instance.delete_time = timezone.now()
+        instance.is_deleted = 1
+        instance.deleted_by = request.user
+        instance.save()
+        try:
+            KubernetesBaseRunner(instance, force).execute(method=method)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Exception as e:
+            return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+    def update(self, request:Request, *args, **kwargs):
+        method = "update"
+        tmp_force = request.query_params.get("force")
+        force = True if tmp_force else False
+        instance = self.get_object()
+        serializer = CustomResourceDefinitionMutationModelSerializer(instance=instance, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            try:
+                KubernetesBaseRunner(instance, force).execute(method=method)
+                return Response(serializer.data,status=status.HTTP_206_PARTIAL_CONTENT)
+            except Exception as e:
+                return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+
+    def retrieve(self, request:Request, *args, **kwargs):
+        instance = self.get_object()
+        return Response(self.get_serializer(instance).data, status=status.HTTP_200_OK)
+
+class CustomResourceViewSet(GenericViewSet):
+    queryset = CustomResource.objects.filter(is_deleted=0)
+    serializer_class = CustomResourceModelSerializer
+
+    def list(self, request:Request, *args, **kwargs):
+        queryset = self.get_queryset()
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
+    def create(self, request:Request, *args, **kwargs):
+        method = "create"
+        tmp_force = request.query_params.get("force")
+        force = True if tmp_force else False
+        serializer = CustomResourceCreationModelSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(created_by=request.user,updated_by=request.user)
+            instance: CustomResource = serializer.instance
+            try:
+                custom_resource_runner_obj = KubernetesCustomResourceRunner(instance,force).execute(method=method)
+                return Response(self.get_serializer(custom_resource_runner_obj).data, status=status.HTTP_201_CREATED)
+            except Exception as e:
+                return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+
+    def delete(self, request:Request, *args, **kwargs):
+        method = "delete"
+        tmp_force = request.query_params.get("force")
+        force = True if tmp_force else False
+        instance = self.get_object()
+        instance.delete_time = timezone.now()
+        instance.is_deleted = 1
+        instance.deleted_by = request.user
+        instance.save()
+        try:
+            KubernetesCustomResourceRunner(instance, force).execute(method=method)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Exception as e:
+            return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+    def update(self, request:Request, *args, **kwargs):
+        method = "update"
+        tmp_force = request.query_params.get("force")
+        force = True if tmp_force else False
+        instance = self.get_object()
+        serializer = CustomResourceMutationModelSerializer(instance=instance, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            try:
+                KubernetesCustomResourceRunner(instance, force).execute(method=method)
+                return Response(serializer.data,status=status.HTTP_206_PARTIAL_CONTENT)
+            except Exception as e:
+                return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+
+    def retrieve(self, request:Request, *args, **kwargs):
+        instance = self.get_object()
+        return Response(self.get_serializer(instance).data, status=status.HTTP_200_OK)
+

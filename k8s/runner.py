@@ -2,6 +2,9 @@ import logging
 
 # import threading
 from io import StringIO
+
+import munch
+import pykube
 from jinja2 import Environment, FileSystemLoader
 from django.conf import settings
 from kubernetes import config
@@ -21,6 +24,8 @@ from .models import (
     ResourceSnapshot,
     Configmap,
     Service,
+    CustomResourceDefinition,
+    CustomResource,
 )
 
 
@@ -226,32 +231,63 @@ class KubernetesRunner(object):
     #             print(e)
     #             return
 
-
-
-class KubernetesConfigMapRunner(object):
-    def __init__(self, configmap_instance: Configmap, force: bool):
-        self.configmap_instance = configmap_instance
+class KubernetesBaseRunner(object):
+    def __init__(self, instance, force: bool=False):
+        self.instance = instance
         self.force = force
         self.tmp_template = None
-        if self.configmap_instance.is_template == 1:
+        if self.instance.is_template == 1:
             self.tmp_template = self.render()
-            self.configmap_instance.render_template = self.tmp_template
+            self.instance.render_template = self.tmp_template
         else:
-            self.tmp_template = self.configmap_instance.template
+            self.tmp_template = self.instance.template
 
 
     def render(self):
         # todo 渲染configmap模板
         pass
 
-    def execute_configmap(self, method: str=""):
+    def execute(self, method: str=""):
         config.load_kube_config()
-        client = KubernetesYamlClient(ApiClient(), self.configmap_instance.template)
+        client = KubernetesYamlClient(ApiClient(), self.instance.template)
         try:
-            ret = client.ensure(force=self.force, method=method)
-            if not self.configmap_instance.name:
-                self.configmap_instance.name = ret.metadata.name
-            self.configmap_instance.save()
+            ret = client.resource_ensure(method=method)
+            if not self.instance.name:
+                self.instance.name = ret.metadata.name
+            self.instance.save()
+            return self.instance
         except Exception as e:
-            print(str(e))
-        return self.configmap_instance
+            raise Exception(str(e))
+
+
+class KubernetesCustomResourceRunner(object):
+    def __init__(self, instance: CustomResource, force: bool=False):
+        self.instance = instance
+        self.force = force
+        self.tmp_template = None
+        if self.instance.is_template == 1:
+            self.tmp_template = self.render()
+            self.instance.render_template = self.tmp_template
+        else:
+            self.tmp_template = self.instance.template
+
+
+    def render(self):
+        # todo 渲染configmap模板
+        pass
+
+    def execute(self, method: str=""):
+        yaml_obj = yaml.safe_load(self.instance.template)
+        name = yaml_obj.get("metadata").get("name")
+        if not self.instance.name:
+            self.instance.name = name
+            self.instance.save()
+        crd_instance = CustomResourceDefinition.objects.filter(pk=self.instance.crd_id).first()
+        try:
+            config.load_kube_config()
+            client = KubernetesYamlClient(ApiClient(), self.instance.template, is_cr=True)
+            ret = client.custom_resource_ensure(crd_instance,method=method,name=name)
+            return self.instance
+        except Exception as e:
+            raise Exception(str(e))
+

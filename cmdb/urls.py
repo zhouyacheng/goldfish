@@ -9,7 +9,7 @@ urlpatterns = [
     # re_path("citype/(?P<name>[^/.]+)/(?P<version>\d+)/$", CiTypeModelViewSet.as_view({"get": "get_by_name_and_version"})),
     #
     path("citypes/", CiTypeModelViewSet.as_view({"get":"list"})),
-    re_path("citypes/(?P<id>[^/.]+)/$", CiTypeRetriveModelViewSet.as_view({"get":"list"})),
+    re_path("citypes/(?P<id>[^/.]+)/$", CiTypeRetriveModelViewSet.as_view({"get":"get_by_name_and_version"})),
     re_path("citypes/(?P<name>[^/.]+)/(?P<version>\d+)/$", CiTypeRetriveModelViewSet.as_view({"get": "get_by_name_and_version"})),
 ]
 

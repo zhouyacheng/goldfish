@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "user",
     "cmdb",
     "jumpserver",
+    "common",
     "iac",
     "chat",
     "k8s",
@@ -95,7 +96,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'codebox',
         'USER': 'yc',
-        'PASSWORD': 'zzyycc1013',
+        'PASSWORD': 'xxx',
         'HOST': 'node02',
         'PORT': '3306',
         'TEST': {
@@ -236,7 +237,7 @@ CACHES = {
         "LOCATION": "redis://node01:6379",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "PASSWORD": "zzyycc1013",
+            "PASSWORD": "xxx",
         }
     },
     # 提供给xadmin或者admin的session存储
@@ -245,7 +246,7 @@ CACHES = {
         "LOCATION": "redis://node01:6379",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "PASSWORD": "zzyycc1013",
+            "PASSWORD": "xxx",
         }
     },
     "celery": {
@@ -253,7 +254,7 @@ CACHES = {
         "LOCATION": "redis://node01:6379/1",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "PASSWORD": "zzyycc1013",
+            "PASSWORD": "xxx",
         }
     },
 }
@@ -261,10 +262,11 @@ CACHES = {
 # celery
 CELERY_RESULT_BACKEND = "django-cache"
 CELERY_CACHE_BACKEND = "celery"
-CELERY_BROKER_URL = "redis://:zzyycc1013@node01:6379/1"
+CELERY_BROKER_URL = "redis://:xxx@node01:6379/1"
 CELERY_TASK_ROUTES = {
     "iac.tasks.*" : {"queue": "iac-1"},
     "k8s.tasks.*" : {"queue": "k8s-1"},
+    "jumpserver.tasks.*" : {"queue": "jumpserver-1"},
 }
 
 
@@ -274,7 +276,7 @@ CHANNEL_LAYERS = {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
             # "hosts": [("node01", 6379)],
-            "hosts": ["redis://:zzyycc1013@node01:6379/0",],
+            "hosts": ["redis://:xxx@node01:6379/0",],
         },
     },
 }
@@ -288,8 +290,8 @@ MONGODB_DATABASES = {
     "host": "node02",
     "port": 27017,
     "tz_aware": True,
-    "username": "root",
-    "password": "root123"
+    "username": "xxx",
+    "password": "xxx"
 }
 
 JUMPSERVER_UPLOADS_DIR = BASE_DIR / "upload"

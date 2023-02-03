@@ -25,3 +25,11 @@ class AuthorModel(models.Model):
     class Meta:
         abstract = True
 
+
+class File(models.Model):
+    uuid = models.UUIDField(max_length=512)
+    name = models.CharField(max_length=61)
+    size = models.BigIntegerField()
+    path = models.CharField(max_length=128,null=True)
+
+

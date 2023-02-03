@@ -18,6 +18,8 @@ from .models import (
     ReleaseTaskProgress,
     Configmap,
     Service,
+    CustomResourceDefinition,
+    CustomResource,
 )
 from rest_framework.serializers import PrimaryKeyRelatedField
 
@@ -340,8 +342,66 @@ class ServiceCreationModelSerializer(CreationSerializerMixin,ServiceModelSeriali
         fields = "__all__"
 
 
-class ServiceMapMutationModelSerializer(MutationSerializerMixin,ServiceModelSerializer,):
+class ServiceMutationModelSerializer(MutationSerializerMixin,ServiceModelSerializer,):
 
     class Meta:
         model = Service
+        fields = "__all__"
+
+
+class CustomResourceDefinitionModelSerializer(AuthorSummaryModelSerializer,
+                               DateTimeModelSerializer,
+                               BaseModelSerializer,
+                               serializers.ModelSerializer, ):
+    class Meta:
+        model = CustomResourceDefinition
+        fields = "__all__"
+
+
+class CustomResourceDefinitionSummaryModelSerializer(AuthorSummaryModelSerializer,
+                               DateTimeModelSerializer,
+                               BaseModelSerializer,
+                               serializers.ModelSerializer, ):
+    class Meta:
+        model = CustomResourceDefinition
+        fields = ["id","name"]
+
+class CustomResourceDefinitionCreationModelSerializer(CreationSerializerMixin,CustomResourceDefinitionModelSerializer,):
+
+    class Meta:
+        model = CustomResourceDefinition
+        fields = "__all__"
+
+
+class CustomResourceDefinitionMutationModelSerializer(MutationSerializerMixin,CustomResourceDefinitionModelSerializer,):
+
+    class Meta:
+        model = CustomResourceDefinition
+        fields = "__all__"
+
+
+class CustomResourceModelSerializer(AuthorSummaryModelSerializer,
+                               DateTimeModelSerializer,
+                               BaseModelSerializer,
+                               serializers.ModelSerializer, ):
+
+    crd = CustomResourceDefinitionSummaryModelSerializer(read_only=True)
+
+    class Meta:
+        model = CustomResource
+        fields = "__all__"
+
+class CustomResourceCreationModelSerializer(CreationSerializerMixin,CustomResourceModelSerializer,):
+    crd = PrimaryKeyRelatedField(queryset=CustomResourceDefinition.objects.all())
+
+    class Meta:
+        model = CustomResource
+        fields = "__all__"
+
+
+class CustomResourceMutationModelSerializer(MutationSerializerMixin,CustomResourceModelSerializer,):
+    crd = PrimaryKeyRelatedField(queryset=CustomResourceDefinition.objects.all())
+
+    class Meta:
+        model = CustomResource
         fields = "__all__"

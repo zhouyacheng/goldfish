@@ -19,6 +19,8 @@ from django.db.transaction import atomic
 import pytz
 import os
 import paramiko
+from common.models import File
+from .tasks import load_server_to_mysql
 # Create your views here.
 
 class OrganizationModelViewSet(ModelViewSet):
@@ -213,3 +215,94 @@ def private_key_upload(request:Request,*args,**kwargs):
 #     print(next(file.chunks()))
 #     print(file.multiple_chunks())
 #     return Response({"message": "ok"})
+
+
+# def load_server_to_mysql(file_path: str):
+#     from pyspark.sql import SparkSession
+#     from pyspark import SparkConf, SparkContext
+#     from pyspark.sql.types import (
+#         StructType,
+#         StringType,
+#         StructField,
+#         IntegerType,
+#         DoubleType,
+#         DateType,
+#     )
+#
+#     spark = SparkSession.builder.master("local[*]").appName("yc_local").getOrCreate()
+#     schema = StructType([
+#         StructField("name", StringType(), True),
+#         StructField("alias_name", StringType(), True),
+#         StructField("ip", StringType(), True),
+#         StructField("user", StringType(), True),
+#         StructField("password", StringType(), True),
+#         StructField("ssh_public_key_path", StringType(), True),
+#         StructField("ssh_private_key_path", StringType(), True),
+#         StructField("is_deleted", IntegerType(), True),
+#         StructField("add_date", StringType(), True),
+#         StructField("org_id", IntegerType(), True),
+#     ])
+#     df = spark.read.csv(
+#         path=f"file://{file_path}",
+#         sep=",",
+#         header=False,
+#         schema=schema,
+#     )
+#
+#     # init_df = spark.createDataFrame()
+#     df.show()
+#     df.createOrReplaceTempView("t1")
+#     df.write.jdbc(
+#         url="jdbc:mysql://node2:3306/codebox?useSSL=false&useUnicode=true&characterEncoding=UTF-8",
+#         table="jmp_host",
+#         mode="append",
+#         properties={"user": "yc", "password": "zzyycc1013"}
+#     )
+#     spark.stop()
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def upload_server(request:Request):
+    """
+    1.文件大小判断
+    2.文件类型检测
+    3.图片缩略图
+    4.
+    :param request:
+    :return:
+    """
+    # 上传的文件大小最大限制,单位M
+    fileinfo_dict = {}
+    file_maximum = 1
+    files = request.FILES.getlist("file")
+    if len(files) > 3:
+        return Response({"result": f"最多支持同时上传3个文件"})
+    file_instance = File()
+    for file in files:
+        # print(file,type(file),len(file))
+        if file.size >= 1024 * 1024 * file_maximum:
+            return Response({"message": f"文件大小超过{file_maximum}M限制"})
+        upload_root_path = settings.JUMPSERVER_UPLOADS_DIR
+        # parent_path = datetime.now(tz=pytz.timezone("Asia/Shanghai")).strftime("%Y%m%d%H%M%S")
+        parent_path = datetime.now(tz=pytz.timezone("Asia/Shanghai")).strftime("%Y%m%d%H%M")
+        uuid = uuid4().hex
+        filename = Path(uuid)
+        sub_path = upload_root_path / parent_path
+        if not os.path.exists(sub_path):
+            sub_path.mkdir(parents=True,exist_ok=True)
+
+        with open(sub_path / filename ,"wb",) as f:
+            for chunk in file.chunks():
+                f.write(chunk)
+        file_instance.name = file.name
+        file_instance.uuid = uuid
+        file_instance.path = str(sub_path / filename)
+        file_instance.size = file.size
+        file_instance.save()
+        fileinfo_dict[uuid] = {}
+        fileinfo_dict[uuid]["filename"] = file.name
+        fileinfo_dict[uuid]["filepath"] = str(parent_path / filename)
+        try:
+            load_server_to_mysql.delay(str(sub_path / filename))
+        except Exception as e:
+            print(str(e))
+    return Response({"result": "ok", "fileinfo": fileinfo_dict})

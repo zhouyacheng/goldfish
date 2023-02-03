@@ -18,11 +18,19 @@ from django.urls import path,include
 from drf_spectacular.views import SpectacularAPIView,SpectacularSwaggerView
 from rest_framework_simplejwt.views import TokenObtainPairView,TokenRefreshView
 from common.views import LoginView,LogoutView
+from rest_framework.documentation import include_docs_urls
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/iac/', include("iac.urls")),
     path('api/k8s/', include("k8s.urls")),
+    path('api/user/', include("user.urls")),
+    path('api/jumpserver/', include("jumpserver.urls")),
+    path('api/cmdb/', include("cmdb.urls")),
+    path('api/mcm/', include("mcm.urls")),
+    path('api/global/', include("global.urls")),
+    path('api/network/', include("network.urls")),
 
     path('api/login/', LoginView.as_view(),name="login"),
     path('api/logout/', LogoutView.as_view(),name="logout"),
@@ -30,6 +38,7 @@ urlpatterns = [
     # websocket test
     path("chat/", include("chat.urls")),
 
+    path('docs/', include_docs_urls(title='goldfish api',permission_classes=[])),
     path('doc/openapi/', SpectacularAPIView.as_view(),name="openapi"),
     path('doc/swagger', SpectacularSwaggerView.as_view(url_name="openapi"),name="swagger-ui"),
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),

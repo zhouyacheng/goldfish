@@ -4,7 +4,7 @@ import os
 import json
 import django
 from typing import Dict
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mammoth.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'codebox.settings')
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from asgiref.sync import sync_to_async
 from rest_framework_simplejwt.exceptions import AuthenticationFailed, InvalidToken, TokenError
