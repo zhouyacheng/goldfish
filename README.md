@@ -15,6 +15,7 @@
 | Django RestframeWork | 3.13.1 |
 | Celery               | 5.2.3  |
 | Kubernetes           | 1.25   |
+| Spark                | 3.3.1  |
 
 
 
@@ -26,13 +27,17 @@
 4. Celery集成, 支持后台及并发执行ansible任务
 5. 定时任务集成, 支持定时调度ansible任务
 6. ansible任务执行结果及日志以websocket的方式实时返回
-7. Kubernets资源管理
+7. Kubernets Deployment资源管理
 8. 自定义流水线支持自定义CI/CD,每条流水线按照stage拆分为不同阶段(例: 打包,测试环境发布,生产环境发布...)执行对应任务
 9. CI/CD流水线任务通过celery后台运行及监控任务执行状态及报错
 
 
 
 ##### 2023/02/03
+
+1. Kubernets ConfigMap, Service资源管理
+2. 支持自定义Kubernetes Operator,以外部插件方式管理Kubernetes集群
+3. park集成文件批量创建资产,暂只支持以Local方式提交任务
 
 | 更新                                                         |
 | ------------------------------------------------------------ |
@@ -44,7 +49,22 @@
 | ------------------------------------------------------------ |
 | 集中管理Prometheus告警, 支持以短信、邮件或其他自定义方式告警 |
 | 告警看板支持: 1.建立告警聚合表 2.告警ETL任务集成至Airflow Dag以T+1为调度写入至Hudi(APP层写回到Mysql) |
-|                                                              |
+
+
+
+##### 2023/02/04
+
+- 集成alertmanager webhook接口,告警信息支持以短信的方式进行发送
+
+| 更新                                                         |
+| ------------------------------------------------------------ |
+| 集成alertmanager webhook接口,告警信息支持以短信的方式进行发送 |
+
+| 下一阶段事项                                                 |
+| ------------------------------------------------------------ |
+| 告警看板支持: 1.建立告警聚合表 2.告警ETL任务集成至Airflow Dag以T+1为调度写入至Hudi(APP层写回到Mysql) |
+
+
 
 #### API Local Doc
 
@@ -126,8 +146,9 @@ CELERY_BROKER_URL = "redis://:password@host:6379/1"
 CELERY_TASK_ROUTES = {
     "iac.tasks.*" : {"queue": "iac-1"},
     "k8s.tasks.*" : {"queue": "k8s-1"},
+    "jumpserver.tasks.*" : {"queue": "jumpserver-1"},
+    "alertmanager.tasks.*" : {"queue": "alertmanager-1"},
 }
-
 
 
 CHANNEL_LAYERS = {
@@ -155,9 +176,33 @@ MONGODB_DATABASES = {
 # 默认为当前项目根目录
 JUMPSERVER_UPLOADS_DIR = BASE_DIR / "upload"
 
+# 告警短信集成
+SMS = {
+    # 说明：主账号，"控制台-应用"中看到开发者主账号ACCOUNT SID
+    "_accountSid":'xxx',
+
+    # 说明：主账号Token，控制台-应用中看到开发者主账号AUTH TOKEN
+    "_accountToken":'xxx',
+
+    # 请使用管理控制台首页的APPID或自己创建应用的APPID
+    "_appId":'xxx',
+
+    # 说明：请求地址，生产环境配置成xxx.xxx.com
+    "_serverIP":'xxx',
+
+    # 说明：请求端口 ，生产环境为xxx
+    "_serverPort": "xxx",
+}
+
 ```
 
 
+
+#### Start APP
+
+```python
+python3 manage.py runserver 0.0.0.0:8000
+```
 
 #### Create User
 
@@ -174,7 +219,8 @@ python3 manage.py createsuperuser
 celery -A codebox beat  -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
 
 # 启动celery
-celery -A codebox worker  -l INFO -Q iac-1  # ansible任务运行队列
-celery -A codebox worker  -l INFO -Q k8s-1  # k8s任务运行队列
-
+celery -A codebox worker  -l INFO -Q iac-1          # ansible任务运行队列
+celery -A codebox worker  -l INFO -Q k8s-1          # k8s任务运行队列
+celery -A codebox worker  -l INFO -Q jumpserver-1   # spark导入资产任务运行队列
+celery -A codebox worker  -l INFO -Q alertmanager-1 # 告警短信发送任务运行队列
 ```
