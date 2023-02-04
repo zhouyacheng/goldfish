@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "iac",
     "chat",
     "k8s",
+    "alertmanager",
 ]
 
 MIDDLEWARE = [
@@ -267,6 +268,7 @@ CELERY_TASK_ROUTES = {
     "iac.tasks.*" : {"queue": "iac-1"},
     "k8s.tasks.*" : {"queue": "k8s-1"},
     "jumpserver.tasks.*" : {"queue": "jumpserver-1"},
+    "alertmanager.tasks.*" : {"queue": "alertmanager-1"},
 }
 
 
@@ -295,3 +297,21 @@ MONGODB_DATABASES = {
 }
 
 JUMPSERVER_UPLOADS_DIR = BASE_DIR / "upload"
+
+
+SMS = {
+    # 说明：主账号，"控制台-应用"中看到开发者主账号ACCOUNT SID
+    "_accountSid":'xxx',
+
+    # 说明：主账号Token，控制台-应用中看到开发者主账号AUTH TOKEN
+    "_accountToken":'xxx',
+
+    # 请使用管理控制台首页的APPID或自己创建应用的APPID
+    "_appId":'xxx',
+
+    # 说明：请求地址，生产环境配置成xxx.xxx.com
+    "_serverIP":'xxx',
+
+    # 说明：请求端口 ，生产环境为xxx
+    "_serverPort": "xxx",
+}

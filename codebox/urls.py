@@ -31,6 +31,7 @@ urlpatterns = [
     path('api/mcm/', include("mcm.urls")),
     path('api/global/', include("global.urls")),
     path('api/network/', include("network.urls")),
+    path('api/alertmanager/', include("alertmanager.urls")),
 
     path('api/login/', LoginView.as_view(),name="login"),
     path('api/logout/', LogoutView.as_view(),name="logout"),
