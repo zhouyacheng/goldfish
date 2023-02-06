@@ -6,7 +6,46 @@ from common.serializer import (
     BaseModelSerializer,
     DateTimeModelSerializer,
 )
-from .models import AlertManager
+from .models import AlertManager,Project
+
+class ProjectModelSerializer(
+    AuthorSummaryModelSerializer,
+    DateTimeModelSerializer,
+    BaseModelSerializer,
+    serializers.ModelSerializer,
+):
+    class Meta:
+        model = Project
+        fields = ["name","role","user"]
+
+
+class ProjectSummaryModelSerializer(
+    AuthorSummaryModelSerializer,
+    DateTimeModelSerializer,
+    BaseModelSerializer,
+    serializers.ModelSerializer,
+):
+    class Meta:
+        model = Project
+        fields = ["name","role","user"]
+
+class ProjectCreationModelSerializer(
+    CreationSerializerMixin,
+    ProjectModelSerializer,
+):
+    class Meta:
+        model = Project
+        fields = ["name","role","user"]
+
+
+class ProjectMutationModelSerializer(
+    MutationSerializerMixin,
+    ProjectModelSerializer,
+):
+    class Meta:
+        model = Project
+        fields = ["name","role","user"]
+
 
 
 class AlertManagerModelSerializer(
@@ -17,7 +56,7 @@ class AlertManagerModelSerializer(
 ):
     class Meta:
         model = AlertManager
-        fields = ["id","receiver","job","fingerprint","status","alertname",
+        fields = ["id","project","receiver","job","fingerprint","status","alertname",
                   "instance","description","summary",
                   "severity","groupkey","start_time","end_time"]
 
@@ -27,7 +66,7 @@ class AlertManagerCreationModelSerializer(
 ):
     class Meta:
         model = AlertManager
-        fields = ["receiver","job","fingerprint","status","alertname",
+        fields = ["project","receiver","job","fingerprint","status","alertname",
                   "instance","description","summary",
                   "severity","groupkey","start_time","end_time"]
 
@@ -38,6 +77,6 @@ class AlertManagerMutationModelSerializer(
 ):
     class Meta:
         model = AlertManager
-        fields = ["id","receiver","job","fingerprint","status","alertname",
+        fields = ["id","project","receiver","job","fingerprint","status","alertname",
                   "instance","description","summary",
                   "severity","groupkey","start_time","end_time"]

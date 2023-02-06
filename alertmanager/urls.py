@@ -4,6 +4,7 @@ from . import views
 
 
 router = SimpleRouter()
+router.register("project",views.ProjectViewSet,basename="project")
 router.register("alert",views.AlertManagerViewSet,basename="alert")
 
 
