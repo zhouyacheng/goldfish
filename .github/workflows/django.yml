@@ -28,3 +28,6 @@ jobs:
 #    - name: Run Tests
 #      run: |
 #        python manage.py test
+    - name: Run Application
+      run: |
+        python manage.py runserver 127.0.0.1:8000
