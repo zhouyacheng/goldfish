@@ -6,7 +6,7 @@ from common.serializer import (
     BaseModelSerializer,
     DateTimeModelSerializer,
 )
-from .models import AlertManager,Project
+from .models import AlertManager,Project,AppAlertmanagerUserResult,AppAlertmanagerJobResult,AppAlertmanagerJobStatusResult
 
 class ProjectModelSerializer(
     AuthorSummaryModelSerializer,
@@ -80,3 +80,20 @@ class AlertManagerMutationModelSerializer(
         fields = ["id","project","receiver","job","fingerprint","status","alertname",
                   "instance","description","summary",
                   "severity","groupkey","start_time","end_time"]
+
+
+class AppAlertmanagerUserResultModelSerializer(serializers.ModelSerializer,):
+    class Meta:
+        model = AppAlertmanagerUserResult
+        fields = "__all__"
+
+
+class AppAlertmanagerJobResultModelSerializer(serializers.ModelSerializer,):
+    class Meta:
+        model = AppAlertmanagerJobResult
+        fields = "__all__"
+
+class AppAlertmanagerJobStatusResultModelSerializer(serializers.ModelSerializer,):
+    class Meta:
+        model = AppAlertmanagerJobStatusResult
+        fields = "__all__"

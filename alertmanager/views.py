@@ -9,7 +9,7 @@ from django.utils import timezone
 from django.db.models import Q
 from rest_framework.decorators import action
 from .serializers import *
-from .models import AlertManager,Project
+from .models import AlertManager,Project,AppAlertmanagerUserResult,AppAlertmanagerJobResult,AppAlertmanagerJobStatusResult
 from .tasks import send_message
 
 
@@ -132,3 +132,35 @@ class AlertManagerViewSet(GenericViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+class AppAlertmanagerUserResultViewSet(GenericViewSet):
+    queryset = AppAlertmanagerUserResult.objects.all()
+    serializer_class = AppAlertmanagerUserResultModelSerializer
+    permission_classes = [IsAuthenticated]
+
+    def list(self, request: Request, *args, **kwargs):
+        page = self.paginate_queryset(self.queryset)
+        serializer = self.get_serializer(page, many=True)
+
+        return self.get_paginated_response(serializer.data)
+
+class AppAlertmanagerJobResultViewSet(GenericViewSet):
+    queryset = AppAlertmanagerJobResult.objects.all()
+    serializer_class = AppAlertmanagerJobResultModelSerializer
+    permission_classes = [IsAuthenticated]
+
+    def list(self, request: Request, *args, **kwargs):
+        page = self.paginate_queryset(self.queryset)
+        serializer = self.get_serializer(page, many=True)
+
+        return self.get_paginated_response(serializer.data)
+
+class AppAlertmanagerJobStatusResultViewSet(GenericViewSet):
+    queryset = AppAlertmanagerJobStatusResult.objects.all()
+    serializer_class = AppAlertmanagerJobStatusResultModelSerializer
+    permission_classes = [IsAuthenticated]
+
+    def list(self, request: Request, *args, **kwargs):
+        page = self.paginate_queryset(self.queryset)
+        serializer = self.get_serializer(page, many=True)
+
+        return self.get_paginated_response(serializer.data)

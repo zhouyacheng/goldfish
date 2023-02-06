@@ -6,6 +6,9 @@ from . import views
 router = SimpleRouter()
 router.register("project",views.ProjectViewSet,basename="project")
 router.register("alert",views.AlertManagerViewSet,basename="alert")
+router.register("userResult",views.AppAlertmanagerUserResultViewSet,basename="userResult")
+router.register("jobResult",views.AppAlertmanagerJobResultViewSet,basename="jobResult")
+router.register("jobStatusResult",views.AppAlertmanagerJobStatusResultViewSet,basename="jobStatusResult")
 
 
 urlpatterns = [

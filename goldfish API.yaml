@@ -4,6 +4,549 @@ info:
   version: 1.0.0
   description: A simple api
 paths:
+  /api/alertmanager/alert/:
+    get:
+      operationId: alertmanager_alert_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - alertmanager
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedAlertManagerModelList'
+          description: ''
+    post:
+      operationId: alertmanager_alert_create
+      tags:
+      - alertmanager
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AlertManagerModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AlertManagerModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AlertManagerModel'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertManagerModel'
+          description: ''
+  /api/alertmanager/alert/{id}/:
+    get:
+      operationId: alertmanager_alert_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this alert manager.
+        required: true
+      tags:
+      - alertmanager
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertManagerModel'
+          description: ''
+    put:
+      operationId: alertmanager_alert_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this alert manager.
+        required: true
+      tags:
+      - alertmanager
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AlertManagerModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AlertManagerModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AlertManagerModel'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertManagerModel'
+          description: ''
+  /api/alertmanager/alert/receive/:
+    post:
+      operationId: alertmanager_alert_receive_create
+      tags:
+      - alertmanager
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AlertManagerModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AlertManagerModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AlertManagerModel'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertManagerModel'
+          description: ''
+  /api/alertmanager/jobResult/:
+    get:
+      operationId: alertmanager_jobResult_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - alertmanager
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedAppAlertmanagerJobResultModelList'
+          description: ''
+  /api/alertmanager/jobStatusResult/:
+    get:
+      operationId: alertmanager_jobStatusResult_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - alertmanager
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedAppAlertmanagerJobStatusResultModelList'
+          description: ''
+  /api/alertmanager/project/:
+    get:
+      operationId: alertmanager_project_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - alertmanager
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedProjectModelList'
+          description: ''
+    post:
+      operationId: alertmanager_project_create
+      tags:
+      - alertmanager
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProjectModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProjectModel'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectModel'
+          description: ''
+  /api/alertmanager/project/{id}/:
+    get:
+      operationId: alertmanager_project_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this project.
+        required: true
+      tags:
+      - alertmanager
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectModel'
+          description: ''
+    put:
+      operationId: alertmanager_project_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this project.
+        required: true
+      tags:
+      - alertmanager
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProjectModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProjectModel'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectModel'
+          description: ''
+  /api/alertmanager/userResult/:
+    get:
+      operationId: alertmanager_userResult_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - alertmanager
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedAppAlertmanagerUserResultModelList'
+          description: ''
+  /api/cmdb/cis/:
+    get:
+      operationId: cmdb_cis_list
+      description: Adaptation of DRF ModelViewSet
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - cmdb
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCiModelList'
+          description: ''
+    post:
+      operationId: cmdb_cis_create
+      description: Adaptation of DRF ModelViewSet
+      tags:
+      - cmdb
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CiModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CiModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CiModel'
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CiModel'
+          description: ''
+  /api/cmdb/cis/{id}/:
+    get:
+      operationId: cmdb_cis_retrieve
+      description: Adaptation of DRF ModelViewSet
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - cmdb
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CiModel'
+          description: ''
+    put:
+      operationId: cmdb_cis_update
+      description: Adaptation of DRF ModelViewSet
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - cmdb
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CiModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CiModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CiModel'
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CiModel'
+          description: ''
+    patch:
+      operationId: cmdb_cis_partial_update
+      description: Adaptation of DRF ModelViewSet
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - cmdb
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCiModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCiModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCiModel'
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CiModel'
+          description: ''
+    delete:
+      operationId: cmdb_cis_destroy
+      description: Adaptation of DRF ModelViewSet
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - cmdb
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '204':
+          description: No response body
+  /api/cmdb/citypes/:
+    get:
+      operationId: cmdb_citypes_list
+      description: Adaptation of DRF ListAPIView
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - cmdb
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCiTypeModelList'
+          description: ''
+  /api/cmdb/citypes/{id}/:
+    get:
+      operationId: cmdb_citypes_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - cmdb
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CiTypeRetriveModel'
+          description: ''
+  /api/cmdb/citypes/{name}/{version}/:
+    get:
+      operationId: cmdb_citypes_retrieve_2
+      parameters:
+      - in: path
+        name: name
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: version
+        schema:
+          type: string
+          pattern: ^\d+$
+        required: true
+      tags:
+      - cmdb
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CiTypeRetriveModel'
+          description: ''
   /api/iac/period/:
     get:
       operationId: iac_period_list
@@ -656,6 +1199,702 @@ paths:
               schema:
                 $ref: '#/components/schemas/TemplateModel'
           description: ''
+  /api/jumpserver/host/:
+    get:
+      operationId: jumpserver_host_list
+      parameters:
+      - in: query
+        name: org
+        schema:
+          type: integer
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - jumpserver
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedHostList'
+          description: ''
+    post:
+      operationId: jumpserver_host_create
+      tags:
+      - jumpserver
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Host'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Host'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Host'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Host'
+          description: ''
+  /api/jumpserver/host/{id}/:
+    get:
+      operationId: jumpserver_host_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this host.
+        required: true
+      tags:
+      - jumpserver
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Host'
+          description: ''
+    put:
+      operationId: jumpserver_host_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this host.
+        required: true
+      tags:
+      - jumpserver
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Host'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Host'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Host'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Host'
+          description: ''
+    patch:
+      operationId: jumpserver_host_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this host.
+        required: true
+      tags:
+      - jumpserver
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedHost'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedHost'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedHost'
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Host'
+          description: ''
+    delete:
+      operationId: jumpserver_host_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this host.
+        required: true
+      tags:
+      - jumpserver
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '204':
+          description: No response body
+  /api/jumpserver/jmp/:
+    get:
+      operationId: jumpserver_jmp_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - jumpserver
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedOrganizationList'
+          description: ''
+    post:
+      operationId: jumpserver_jmp_create
+      tags:
+      - jumpserver
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Organization'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Organization'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Organization'
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+          description: ''
+  /api/jumpserver/jmp/{id}/:
+    get:
+      operationId: jumpserver_jmp_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this organization.
+        required: true
+      tags:
+      - jumpserver
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+          description: ''
+    put:
+      operationId: jumpserver_jmp_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this organization.
+        required: true
+      tags:
+      - jumpserver
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Organization'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Organization'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Organization'
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+          description: ''
+    patch:
+      operationId: jumpserver_jmp_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this organization.
+        required: true
+      tags:
+      - jumpserver
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedOrganization'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedOrganization'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedOrganization'
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+          description: ''
+    delete:
+      operationId: jumpserver_jmp_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this organization.
+        required: true
+      tags:
+      - jumpserver
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '204':
+          description: No response body
+  /api/jumpserver/jmp/all/:
+    get:
+      operationId: jumpserver_jmp_all_retrieve
+      tags:
+      - jumpserver
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+          description: ''
+  /api/jumpserver/ssh/:
+    post:
+      operationId: jumpserver_ssh_create
+      tags:
+      - jumpserver
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          description: No response body
+  /api/jumpserver/upload/:
+    post:
+      operationId: jumpserver_upload_create
+      description: |-
+        1.文件大小判断
+        2.文件类型检测
+        3.图片缩略图
+        4.
+        :param request:
+        :return:
+      tags:
+      - jumpserver
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          description: No response body
+  /api/jumpserver/uploadpkey/:
+    post:
+      operationId: jumpserver_uploadpkey_create
+      description: |-
+        1.文件大小判断
+        2.文件类型检测
+        3.图片缩略图
+        4.
+        :param request:
+        :return:
+      tags:
+      - jumpserver
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          description: No response body
+  /api/jumpserver/uploadserver/:
+    post:
+      operationId: jumpserver_uploadserver_create
+      description: |-
+        1.文件大小判断
+        2.文件类型检测
+        3.图片缩略图
+        4.
+        :param request:
+        :return:
+      tags:
+      - jumpserver
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          description: No response body
+  /api/k8s/configmap/:
+    get:
+      operationId: k8s_configmap_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - k8s
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedConfigMapModelList'
+          description: ''
+    post:
+      operationId: k8s_configmap_create
+      tags:
+      - k8s
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigMapModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ConfigMapModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ConfigMapModel'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfigMapModel'
+          description: ''
+  /api/k8s/configmap/{id}/:
+    get:
+      operationId: k8s_configmap_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this configmap.
+        required: true
+      tags:
+      - k8s
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfigMapModel'
+          description: ''
+    put:
+      operationId: k8s_configmap_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this configmap.
+        required: true
+      tags:
+      - k8s
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigMapModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ConfigMapModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ConfigMapModel'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfigMapModel'
+          description: ''
+  /api/k8s/cr/:
+    get:
+      operationId: k8s_cr_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - k8s
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCustomResourceModelList'
+          description: ''
+    post:
+      operationId: k8s_cr_create
+      tags:
+      - k8s
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomResourceModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CustomResourceModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CustomResourceModel'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomResourceModel'
+          description: ''
+  /api/k8s/cr/{id}/:
+    get:
+      operationId: k8s_cr_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this custom resource.
+        required: true
+      tags:
+      - k8s
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomResourceModel'
+          description: ''
+    put:
+      operationId: k8s_cr_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this custom resource.
+        required: true
+      tags:
+      - k8s
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomResourceModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CustomResourceModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CustomResourceModel'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomResourceModel'
+          description: ''
+  /api/k8s/crd/:
+    get:
+      operationId: k8s_crd_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - k8s
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCustomResourceDefinitionModelList'
+          description: ''
+    post:
+      operationId: k8s_crd_create
+      tags:
+      - k8s
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomResourceDefinitionModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CustomResourceDefinitionModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CustomResourceDefinitionModel'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomResourceDefinitionModel'
+          description: ''
+  /api/k8s/crd/{id}/:
+    get:
+      operationId: k8s_crd_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this custom resource definition.
+        required: true
+      tags:
+      - k8s
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomResourceDefinitionModel'
+          description: ''
+    put:
+      operationId: k8s_crd_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this custom resource definition.
+        required: true
+      tags:
+      - k8s
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomResourceDefinitionModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CustomResourceDefinitionModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CustomResourceDefinitionModel'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomResourceDefinitionModel'
+          description: ''
   /api/k8s/env/:
     get:
       operationId: k8s_env_list
@@ -1257,6 +2496,111 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProjectResourceModel'
           description: ''
+  /api/k8s/service/:
+    get:
+      operationId: k8s_service_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - k8s
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedServiceModelList'
+          description: ''
+    post:
+      operationId: k8s_service_create
+      tags:
+      - k8s
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ServiceModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ServiceModel'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceModel'
+          description: ''
+  /api/k8s/service/{id}/:
+    get:
+      operationId: k8s_service_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this service.
+        required: true
+      tags:
+      - k8s
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceModel'
+          description: ''
+    put:
+      operationId: k8s_service_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this service.
+        required: true
+      tags:
+      - k8s
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ServiceModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ServiceModel'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceModel'
+          description: ''
   /api/k8s/stage/:
     get:
       operationId: k8s_stage_list
@@ -1450,8 +2794,398 @@ paths:
               schema:
                 $ref: '#/components/schemas/TokenRefresh'
           description: ''
+  /api/user/:
+    get:
+      operationId: user_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: username
+        schema:
+          type: string
+      tags:
+      - user
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedUserModelSerializersList'
+          description: ''
+    post:
+      operationId: user_create
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserModelSerializers'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserModelSerializers'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserModelSerializers'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserModelSerializers'
+          description: ''
+  /api/user/{id}/:
+    get:
+      operationId: user_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this 用户信息表.
+        required: true
+      tags:
+      - user
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserModelSerializers'
+          description: ''
+    put:
+      operationId: user_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this 用户信息表.
+        required: true
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserModelSerializers'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserModelSerializers'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserModelSerializers'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserModelSerializers'
+          description: ''
+    patch:
+      operationId: user_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this 用户信息表.
+        required: true
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUserModelSerializers'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUserModelSerializers'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUserModelSerializers'
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserModelSerializers'
+          description: ''
+    delete:
+      operationId: user_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this 用户信息表.
+        required: true
+      tags:
+      - user
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '204':
+          description: No response body
+  /api/user/{id}/reset_password/:
+    post:
+      operationId: user_reset_password_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this 用户信息表.
+        required: true
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserModelSerializers'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserModelSerializers'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserModelSerializers'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserModelSerializers'
+          description: ''
+  /api/user/menulist/:
+    get:
+      operationId: user_menulist_retrieve
+      tags:
+      - user
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          description: No response body
+  /api/user/resetpassword/{id}/:
+    post:
+      operationId: user_resetpassword_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          pattern: ^\d+$
+        required: true
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserModelSerializers'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserModelSerializers'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserModelSerializers'
+        required: true
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserModelSerializers'
+          description: ''
+  /api/user/whoami/:
+    get:
+      operationId: user_whoami_retrieve
+      tags:
+      - user
+      security:
+      - BearerTokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserModelSerializers'
+          description: ''
 components:
   schemas:
+    AlertManagerModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        project:
+          type: integer
+        receiver:
+          type: string
+          maxLength: 64
+        job:
+          type: string
+          maxLength: 64
+        fingerprint:
+          type: string
+          maxLength: 64
+        status:
+          type: string
+          maxLength: 64
+        alertname:
+          type: string
+          maxLength: 64
+        instance:
+          type: string
+          maxLength: 64
+        description:
+          type: string
+          maxLength: 256
+        summary:
+          type: string
+          maxLength: 256
+        severity:
+          type: string
+          maxLength: 64
+        groupkey:
+          type: string
+          maxLength: 512
+        start_time:
+          type: string
+          format: date-time
+          readOnly: true
+        end_time:
+          type: string
+          format: date-time
+          nullable: true
+      required:
+      - alertname
+      - description
+      - fingerprint
+      - groupkey
+      - id
+      - instance
+      - job
+      - project
+      - receiver
+      - severity
+      - start_time
+      - status
+      - summary
+    AppAlertmanagerJobResultModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        job:
+          type: string
+          nullable: true
+          maxLength: 64
+        job_cnt:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          nullable: true
+        dt:
+          type: string
+          nullable: true
+          maxLength: 64
+      required:
+      - id
+    AppAlertmanagerJobStatusResultModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        job:
+          type: string
+          nullable: true
+          maxLength: 64
+        status:
+          type: string
+          nullable: true
+          maxLength: 64
+        alertname:
+          type: string
+          nullable: true
+          maxLength: 64
+        status_cnt:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          nullable: true
+        dt:
+          type: string
+          nullable: true
+          maxLength: 64
+      required:
+      - id
+    AppAlertmanagerUserResultModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user_id:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          nullable: true
+        username:
+          type: string
+          nullable: true
+          maxLength: 64
+        job:
+          type: string
+          nullable: true
+          maxLength: 64
+        job_cnt:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          nullable: true
+        dt:
+          type: string
+          nullable: true
+          maxLength: 64
+      required:
+      - id
     AuthorModel:
       type: object
       properties:
@@ -1489,6 +3223,720 @@ components:
       - password
       - token
       - username
+    CiModel:
+      type: object
+      description: |-
+        Serializer for Documents.
+
+        Recognized primitve fields:
+
+            * ``StringField``
+            * ``URLField``
+            * ``EmailField``
+            * ``IntField``
+            * ``LongField``
+            * ``FloatField``
+            * ``DecimalField``
+            * ``BooleanField``
+            * ``DateTimeField``
+            * ``ComplexDateTimeField``
+            * ``ObjectIdField``
+            * ``SequenceField`` (assumes it has integer counter)
+            * ``UUIDField``
+            * ``GeoPointField``
+            * ``GeoJsonBaseField`` (all those fields)
+            * ``DateField``
+
+        Compound fields: ``ListField`` and ``DictField`` are mapped to corresponding DRF fields, with respect to nested field specification.
+
+        The ``ReferenceField`` is handled like ``ForeignKey`` in DRF: there nested serializer autogenerated if serializer depth greater then 0, otherwise it's handled by it's own (results as ``str(id)``).
+
+        For ``EmbeddedDocumentField`` also nested serializer autogenerated for non-zero depth, otherwise it is skipped. TODO: THIS IS PROBABLY WRONG AND SHOULD BE FIXED.
+
+        Generic fields ``GenericReferenceField`` and ``GenericEmbeddedDocumentField`` are handled by their own with corresponding serializer fields.
+
+        Not well supported or untested:
+
+            ``FileField``
+            ``ImageField``
+            ``BinaryField``
+
+        All other fields are mapped to ``DocumentField`` and probably will work wrong.
+      properties:
+        id:
+          type: string
+          readOnly: true
+      required:
+      - id
+    CiTypeModel:
+      type: object
+      description: |-
+        Serializer for Documents.
+
+        Recognized primitve fields:
+
+            * ``StringField``
+            * ``URLField``
+            * ``EmailField``
+            * ``IntField``
+            * ``LongField``
+            * ``FloatField``
+            * ``DecimalField``
+            * ``BooleanField``
+            * ``DateTimeField``
+            * ``ComplexDateTimeField``
+            * ``ObjectIdField``
+            * ``SequenceField`` (assumes it has integer counter)
+            * ``UUIDField``
+            * ``GeoPointField``
+            * ``GeoJsonBaseField`` (all those fields)
+            * ``DateField``
+
+        Compound fields: ``ListField`` and ``DictField`` are mapped to corresponding DRF fields, with respect to nested field specification.
+
+        The ``ReferenceField`` is handled like ``ForeignKey`` in DRF: there nested serializer autogenerated if serializer depth greater then 0, otherwise it's handled by it's own (results as ``str(id)``).
+
+        For ``EmbeddedDocumentField`` also nested serializer autogenerated for non-zero depth, otherwise it is skipped. TODO: THIS IS PROBABLY WRONG AND SHOULD BE FIXED.
+
+        Generic fields ``GenericReferenceField`` and ``GenericEmbeddedDocumentField`` are handled by their own with corresponding serializer fields.
+
+        Not well supported or untested:
+
+            ``FileField``
+            ``ImageField``
+            ``BinaryField``
+
+        All other fields are mapped to ``DocumentField`` and probably will work wrong.
+      properties:
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+          minLength: 1
+        label:
+          type: string
+          maxLength: 255
+          minLength: 1
+        version:
+          type: integer
+          maximum: 10000
+          minimum: 1
+          default: 1
+      required:
+      - id
+      - name
+    CiTypeRetriveModel:
+      type: object
+      description: |-
+        Serializer for Documents.
+
+        Recognized primitve fields:
+
+            * ``StringField``
+            * ``URLField``
+            * ``EmailField``
+            * ``IntField``
+            * ``LongField``
+            * ``FloatField``
+            * ``DecimalField``
+            * ``BooleanField``
+            * ``DateTimeField``
+            * ``ComplexDateTimeField``
+            * ``ObjectIdField``
+            * ``SequenceField`` (assumes it has integer counter)
+            * ``UUIDField``
+            * ``GeoPointField``
+            * ``GeoJsonBaseField`` (all those fields)
+            * ``DateField``
+
+        Compound fields: ``ListField`` and ``DictField`` are mapped to corresponding DRF fields, with respect to nested field specification.
+
+        The ``ReferenceField`` is handled like ``ForeignKey`` in DRF: there nested serializer autogenerated if serializer depth greater then 0, otherwise it's handled by it's own (results as ``str(id)``).
+
+        For ``EmbeddedDocumentField`` also nested serializer autogenerated for non-zero depth, otherwise it is skipped. TODO: THIS IS PROBABLY WRONG AND SHOULD BE FIXED.
+
+        Generic fields ``GenericReferenceField`` and ``GenericEmbeddedDocumentField`` are handled by their own with corresponding serializer fields.
+
+        Not well supported or untested:
+
+            ``FileField``
+            ``ImageField``
+            ``BinaryField``
+
+        All other fields are mapped to ``DocumentField`` and probably will work wrong.
+      properties:
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+          minLength: 1
+        label:
+          type: string
+          maxLength: 255
+          minLength: 1
+        version:
+          type: integer
+          maximum: 10000
+          minimum: 1
+          default: 1
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/Embedded'
+      required:
+      - id
+      - name
+    ConfigMapModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        created_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        updated_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        deleted_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        is_deleted:
+          type: boolean
+          title: 逻辑删除
+        orders:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          title: 显示顺序
+        create_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 创建时间
+        update_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 修改时间
+        delete_time:
+          type: string
+          format: date-time
+          nullable: true
+          title: 删除时间
+        name:
+          type: string
+          nullable: true
+          maxLength: 128
+        template:
+          type: string
+        render_template:
+          type: string
+          nullable: true
+        is_template:
+          type: boolean
+      required:
+      - create_time
+      - created_by
+      - deleted_by
+      - id
+      - template
+      - update_time
+      - updated_by
+    CustomResourceDefinitionModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        created_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        updated_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        deleted_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        is_deleted:
+          type: boolean
+          title: 逻辑删除
+        orders:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          title: 显示顺序
+        create_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 创建时间
+        update_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 修改时间
+        delete_time:
+          type: string
+          format: date-time
+          nullable: true
+          title: 删除时间
+        name:
+          type: string
+          maxLength: 128
+        template:
+          type: string
+        render_template:
+          type: string
+          nullable: true
+        is_template:
+          type: boolean
+      required:
+      - create_time
+      - created_by
+      - deleted_by
+      - id
+      - name
+      - template
+      - update_time
+      - updated_by
+    CustomResourceDefinitionSummaryModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 128
+      required:
+      - id
+      - name
+    CustomResourceModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        created_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        updated_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        deleted_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        crd:
+          allOf:
+          - $ref: '#/components/schemas/CustomResourceDefinitionSummaryModel'
+          readOnly: true
+        is_deleted:
+          type: boolean
+          title: 逻辑删除
+        orders:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          title: 显示顺序
+        create_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 创建时间
+        update_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 修改时间
+        delete_time:
+          type: string
+          format: date-time
+          nullable: true
+          title: 删除时间
+        name:
+          type: string
+          maxLength: 128
+        template:
+          type: string
+        render_template:
+          type: string
+          nullable: true
+        is_template:
+          type: boolean
+      required:
+      - crd
+      - create_time
+      - created_by
+      - deleted_by
+      - id
+      - name
+      - template
+      - update_time
+      - updated_by
+    Embedded:
+      type: object
+      description: |-
+        Serializer for EmbeddedDocuments.
+
+        Skips id field and uniqueness validation.
+        When saving, skips calling instance.save
+      properties:
+        name:
+          type: string
+          maxLength: 255
+          minLength: 1
+        label:
+          type: string
+          maxLength: 255
+          minLength: 1
+        type:
+          type: string
+          default: str
+          maxLength: 255
+          minLength: 1
+        required:
+          type: boolean
+    Host:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: 主机名称
+          maxLength: 255
+        alias_name:
+          type: string
+          nullable: true
+          title: 主机别名
+          maxLength: 255
+        ip:
+          type: string
+          title: Ip地址
+        user:
+          type: string
+          title: 主机登录用户
+          maxLength: 20
+        password:
+          type: string
+          writeOnly: true
+          nullable: true
+          title: 主机密码
+          maxLength: 255
+        ssh_public_key_path:
+          type: string
+          writeOnly: true
+          nullable: true
+          title: 公钥路径
+          maxLength: 255
+        ssh_private_key_path:
+          type: string
+          writeOnly: true
+          nullable: true
+          title: 私钥路径
+          maxLength: 255
+        is_deleted:
+          allOf:
+          - $ref: '#/components/schemas/IsDeletedEnum'
+          writeOnly: true
+          title: 伪删除
+          minimum: -32768
+          maximum: 32767
+        add_date:
+          type: string
+          format: date-time
+          readOnly: true
+        org:
+          type: integer
+      required:
+      - add_date
+      - id
+      - ip
+      - name
+      - org
+    IsDeletedEnum:
+      enum:
+      - 0
+      - 1
+      type: integer
+    Organization:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          nullable: true
+          maxLength: 255
+        level:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        is_deleted:
+          type: boolean
+        parent:
+          type: integer
+          nullable: true
+      required:
+      - id
+    PaginatedAlertManagerModelList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        maxsize:
+          type: integer
+          example: 123
+        page:
+          type: integer
+          example: 123
+        size:
+          type: integer
+          example: 123
+        num_pages:
+          type: integer
+          example: 123
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AlertManagerModel'
+    PaginatedAppAlertmanagerJobResultModelList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        maxsize:
+          type: integer
+          example: 123
+        page:
+          type: integer
+          example: 123
+        size:
+          type: integer
+          example: 123
+        num_pages:
+          type: integer
+          example: 123
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AppAlertmanagerJobResultModel'
+    PaginatedAppAlertmanagerJobStatusResultModelList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        maxsize:
+          type: integer
+          example: 123
+        page:
+          type: integer
+          example: 123
+        size:
+          type: integer
+          example: 123
+        num_pages:
+          type: integer
+          example: 123
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AppAlertmanagerJobStatusResultModel'
+    PaginatedAppAlertmanagerUserResultModelList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        maxsize:
+          type: integer
+          example: 123
+        page:
+          type: integer
+          example: 123
+        size:
+          type: integer
+          example: 123
+        num_pages:
+          type: integer
+          example: 123
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AppAlertmanagerUserResultModel'
+    PaginatedCiModelList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        maxsize:
+          type: integer
+          example: 123
+        page:
+          type: integer
+          example: 123
+        size:
+          type: integer
+          example: 123
+        num_pages:
+          type: integer
+          example: 123
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CiModel'
+    PaginatedCiTypeModelList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        maxsize:
+          type: integer
+          example: 123
+        page:
+          type: integer
+          example: 123
+        size:
+          type: integer
+          example: 123
+        num_pages:
+          type: integer
+          example: 123
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CiTypeModel'
+    PaginatedConfigMapModelList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        maxsize:
+          type: integer
+          example: 123
+        page:
+          type: integer
+          example: 123
+        size:
+          type: integer
+          example: 123
+        num_pages:
+          type: integer
+          example: 123
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConfigMapModel'
+    PaginatedCustomResourceDefinitionModelList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        maxsize:
+          type: integer
+          example: 123
+        page:
+          type: integer
+          example: 123
+        size:
+          type: integer
+          example: 123
+        num_pages:
+          type: integer
+          example: 123
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomResourceDefinitionModel'
+    PaginatedCustomResourceModelList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        maxsize:
+          type: integer
+          example: 123
+        page:
+          type: integer
+          example: 123
+        size:
+          type: integer
+          example: 123
+        num_pages:
+          type: integer
+          example: 123
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomResourceModel'
+    PaginatedHostList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        maxsize:
+          type: integer
+          example: 123
+        page:
+          type: integer
+          example: 123
+        size:
+          type: integer
+          example: 123
+        num_pages:
+          type: integer
+          example: 123
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Host'
+    PaginatedOrganizationList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        maxsize:
+          type: integer
+          example: 123
+        page:
+          type: integer
+          example: 123
+        size:
+          type: integer
+          example: 123
+        num_pages:
+          type: integer
+          example: 123
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Organization'
     PaginatedPeriodTaskSummaryModelList:
       type: object
       properties:
@@ -1621,6 +4069,28 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/RepositoryModel'
+    PaginatedServiceModelList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        maxsize:
+          type: integer
+          example: 123
+        page:
+          type: integer
+          example: 123
+        size:
+          type: integer
+          example: 123
+        num_pages:
+          type: integer
+          example: 123
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceModel'
     PaginatedStageModelList:
       type: object
       properties:
@@ -1709,6 +4179,181 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/TemplateModel'
+    PaginatedUserModelSerializersList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserModelSerializers'
+    PatchedCiModel:
+      type: object
+      description: |-
+        Serializer for Documents.
+
+        Recognized primitve fields:
+
+            * ``StringField``
+            * ``URLField``
+            * ``EmailField``
+            * ``IntField``
+            * ``LongField``
+            * ``FloatField``
+            * ``DecimalField``
+            * ``BooleanField``
+            * ``DateTimeField``
+            * ``ComplexDateTimeField``
+            * ``ObjectIdField``
+            * ``SequenceField`` (assumes it has integer counter)
+            * ``UUIDField``
+            * ``GeoPointField``
+            * ``GeoJsonBaseField`` (all those fields)
+            * ``DateField``
+
+        Compound fields: ``ListField`` and ``DictField`` are mapped to corresponding DRF fields, with respect to nested field specification.
+
+        The ``ReferenceField`` is handled like ``ForeignKey`` in DRF: there nested serializer autogenerated if serializer depth greater then 0, otherwise it's handled by it's own (results as ``str(id)``).
+
+        For ``EmbeddedDocumentField`` also nested serializer autogenerated for non-zero depth, otherwise it is skipped. TODO: THIS IS PROBABLY WRONG AND SHOULD BE FIXED.
+
+        Generic fields ``GenericReferenceField`` and ``GenericEmbeddedDocumentField`` are handled by their own with corresponding serializer fields.
+
+        Not well supported or untested:
+
+            ``FileField``
+            ``ImageField``
+            ``BinaryField``
+
+        All other fields are mapped to ``DocumentField`` and probably will work wrong.
+      properties:
+        id:
+          type: string
+          readOnly: true
+    PatchedHost:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: 主机名称
+          maxLength: 255
+        alias_name:
+          type: string
+          nullable: true
+          title: 主机别名
+          maxLength: 255
+        ip:
+          type: string
+          title: Ip地址
+        user:
+          type: string
+          title: 主机登录用户
+          maxLength: 20
+        password:
+          type: string
+          writeOnly: true
+          nullable: true
+          title: 主机密码
+          maxLength: 255
+        ssh_public_key_path:
+          type: string
+          writeOnly: true
+          nullable: true
+          title: 公钥路径
+          maxLength: 255
+        ssh_private_key_path:
+          type: string
+          writeOnly: true
+          nullable: true
+          title: 私钥路径
+          maxLength: 255
+        is_deleted:
+          allOf:
+          - $ref: '#/components/schemas/IsDeletedEnum'
+          writeOnly: true
+          title: 伪删除
+          minimum: -32768
+          maximum: 32767
+        add_date:
+          type: string
+          format: date-time
+          readOnly: true
+        org:
+          type: integer
+    PatchedOrganization:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          nullable: true
+          maxLength: 255
+        level:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        is_deleted:
+          type: boolean
+        parent:
+          type: integer
+          nullable: true
+    PatchedUserModelSerializers:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          title: 用户名
+          description: 必填；长度为150个字符或以下；只能包含字母、数字、特殊字符“@”、“.”、“-”和“_”。
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        password:
+          type: string
+          writeOnly: true
+          title: 密码
+          maxLength: 128
+        confirm_password:
+          type: string
+          writeOnly: true
+          description: 确认密码
+          maxLength: 255
+        token:
+          type: string
+          readOnly: true
+          description: token令牌
+          maxLength: 1000
+        email:
+          type: string
+          format: email
+          title: 电子邮件地址
+          maxLength: 254
+        is_superuser:
+          type: boolean
+          title: 超级用户状态
+          description: 指明该用户缺省拥有所有权限。
+        is_active:
+          type: boolean
+          title: 有效
+          description: 指明用户是否被认为是活跃的。以反选代替删除帐号。
     PeriodTaskSummaryModel:
       type: object
       properties:
@@ -1936,70 +4581,18 @@ components:
     ProjectModel:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
-        created_by:
-          allOf:
-          - $ref: '#/components/schemas/AuthorModel'
-          readOnly: true
-        updated_by:
-          allOf:
-          - $ref: '#/components/schemas/AuthorModel'
-          readOnly: true
-        deleted_by:
-          allOf:
-          - $ref: '#/components/schemas/AuthorModel'
-          readOnly: true
-        pipeline:
-          allOf:
-          - $ref: '#/components/schemas/PipelineSummaryModel'
-          readOnly: true
-        is_deleted:
-          type: boolean
-          default: false
-          title: 逻辑删除
-        orders:
-          type: integer
-          maximum: 2147483647
-          minimum: -2147483648
-          title: 显示顺序
-        create_time:
-          type: string
-          format: date-time
-          readOnly: true
-          title: 创建时间
-        update_time:
-          type: string
-          format: date-time
-          readOnly: true
-          title: 修改时间
-        delete_time:
-          type: string
-          format: date-time
-          nullable: true
-          title: 删除时间
         name:
           type: string
           maxLength: 64
-        url:
+        role:
           type: string
-          maxLength: 256
-        build_template:
-          type: string
-        deploy_template:
-          type: string
+          nullable: true
+          maxLength: 64
+        user:
+          type: integer
       required:
-      - create_time
-      - created_by
-      - deleted_by
-      - deploy_template
-      - id
       - name
-      - pipeline
-      - update_time
-      - updated_by
-      - url
+      - user
     ProjectResourceModel:
       type: object
       properties:
@@ -2457,6 +5050,66 @@ components:
       required:
       - display_name
       - id
+    ServiceModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        created_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        updated_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        deleted_by:
+          allOf:
+          - $ref: '#/components/schemas/AuthorModel'
+          readOnly: true
+        is_deleted:
+          type: boolean
+          title: 逻辑删除
+        orders:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          title: 显示顺序
+        create_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 创建时间
+        update_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 修改时间
+        delete_time:
+          type: string
+          format: date-time
+          nullable: true
+          title: 删除时间
+        name:
+          type: string
+          nullable: true
+          maxLength: 128
+        template:
+          type: string
+        render_template:
+          type: string
+          nullable: true
+        is_template:
+          type: boolean
+      required:
+      - create_time
+      - created_by
+      - deleted_by
+      - id
+      - template
+      - update_time
+      - updated_by
     StageModel:
       type: object
       properties:
@@ -2855,6 +5508,52 @@ components:
       required:
       - access
       - refresh
+    UserModelSerializers:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          title: 用户名
+          description: 必填；长度为150个字符或以下；只能包含字母、数字、特殊字符“@”、“.”、“-”和“_”。
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        password:
+          type: string
+          writeOnly: true
+          title: 密码
+          maxLength: 128
+        confirm_password:
+          type: string
+          writeOnly: true
+          description: 确认密码
+          maxLength: 255
+        token:
+          type: string
+          readOnly: true
+          description: token令牌
+          maxLength: 1000
+        email:
+          type: string
+          format: email
+          title: 电子邮件地址
+          maxLength: 254
+        is_superuser:
+          type: boolean
+          title: 超级用户状态
+          description: 指明该用户缺省拥有所有权限。
+        is_active:
+          type: boolean
+          title: 有效
+          description: 指明用户是否被认为是活跃的。以反选代替删除帐号。
+      required:
+      - confirm_password
+      - id
+      - password
+      - token
+      - username
   securitySchemes:
     BearerTokenAuthentication:
       type: http

@@ -35,7 +35,7 @@ def load_server_to_mysql(file_path: str):
         url="jdbc:mysql://node2:3306/codebox?useSSL=false&useUnicode=true&characterEncoding=UTF-8",
         table="jmp_host",
         mode="append",
-        properties={"user": "yc", "password": "zzyycc1013"}
+        properties={"user": "xxx", "password": "xxx"}
     )
 
     spark.stop()
