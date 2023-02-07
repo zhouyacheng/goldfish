@@ -46,7 +46,7 @@
 
 - 告警关联至项目,项目关联至平台用户,触发对应告警时对关联项目的用户自动发送短信
 - 告警分析看板功能发布
-  - 数据流向: Mysql->Sqoop(T+1)->Hive(Spark作为计算引擎,暂时先分为ODS|DWD|APP 3个数据层;Airflow作为Sqoop任务和的调度组件) -> APP层数据同步至Mysql->Web接口获取聚合后的APP层数据
+  - 数据流向: Mysql->Sqoop(T+1)->Hive(Spark作为计算引擎,暂时先分为ODS|DWD|APP 3个数据层;Airflow作为Sqoop和ETL任务的调度组件) -> APP层数据同步至Mysql->Web接口获取聚合后的APP层数据
   - 看板维度
     - 项目负责人维度
     - 告警事件维度
