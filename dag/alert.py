@@ -21,7 +21,6 @@ class DingdingAlert(Alert):
     ):
         self.task_id = task_id
         self.dingding_robot_url = dingding_robot_url
-        print(self.dingding_robot_url)
         self.message_type = message_type
         self.message = message
         self.at_all = at_all
@@ -90,7 +89,6 @@ class WechatAlert(Alert):
                         "mentioned_mobile_list": [alert_object],
                     },
                 }
-                print(f"wechat_robot_url: {self.wechat_robot_url}")
                 res = requests.post(
                     url=self.wechat_robot_url,
                     headers=self.request_headers,

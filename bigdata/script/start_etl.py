@@ -63,7 +63,7 @@ if __name__ == '__main__':
     executeSQLFile('app.sql')
 
     app_alertmanager_user_result_df = spark.sql("""
-        select * from goldfish_app.app_alertmanager_user_result
+        select * from new_goldfish_app.app_alertmanager_user_result
     """)
 
     app_alertmanager_user_result_df.write.jdbc(
@@ -75,7 +75,7 @@ if __name__ == '__main__':
 
 
     app_alertmanager_job_result_df = spark.sql("""
-            select * from goldfish_app.app_alertmanager_job_result
+            select * from new_goldfish_app.app_alertmanager_job_result
         """)
 
     app_alertmanager_job_result_df.write.jdbc(
@@ -87,14 +87,14 @@ if __name__ == '__main__':
 
 
     app_alertmanager_job_status_result_df = spark.sql("""
-            select * from goldfish_app.app_alertmanager_job_status_result
+            select * from new_goldfish_app.app_alertmanager_job_status_result
         """)
 
     app_alertmanager_job_status_result_df.write.jdbc(
         url="jdbc:mysql://node02:3306/codebox?createDatabaseIfNotExist=true&serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8",
         table="app_alertmanager_job_status_result",
         mode="append",
-        properties={"user": "xxx", "password": "xxx"}
+        properties={"user": "yc", "xxx": "xxx"}
     )
 
 

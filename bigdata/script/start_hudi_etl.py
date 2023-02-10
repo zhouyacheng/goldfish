@@ -44,26 +44,34 @@ if __name__ == '__main__':
 
     # 1) 创建 sparkSession对象, 此对象支持连接hive
     # .master("local[*]") \
-    spark = SparkSession \
-        .builder \
-        .master("local[*]") \
-        .appName("insurance_main") \
-        .config("spark.sql.shuffle.partitions", 200) \
-        .config("spark.sql.warehouse.dir", "hdfs://node03:8020/user/hive/warehouse") \
-        .config("hive.metastore.uris", "thrift://node03:9083") \
-        .config("spark.sql.hive.metastore.jars", "/opt/cloudera/parcels/CDH-6.3.1-1.cdh6.3.1.p0.1470567/lib/hive/lib/*") \
-        .config("spark.sql.hive.metastore.version", "2.1.1") \
-        .config("spark.pyspark.driver.python", "/root/anaconda3/envs/spark/bin/python3") \
-        .config("spark.pyspark.python", "/root/anaconda3/envs/spark/bin/python3") \
-        .enableHiveSupport() \
+    hudi_jar_path = "/root/anaconda3/envs/spark/lib/python3.8/site-packages/pyspark/jars/hudi-spark3.1-bundle_2.12-0.11.1.jar"
+    metastore_uri = "thrift://node03:9083"
+    spark = (
+        SparkSession.builder.master("local[*]")
+        .appName("start_hudi_etl")
+        .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+        .config("spark.sql.extensions", "org.apache.spark.sql.hudi.HoodieSparkSessionExtension")
+        .config("spark.jars", hudi_jar_path)
+        .config("spark.driver.extraClassPath", hudi_jar_path)
+        .config("hive.metastore.uris", metastore_uri)
+        .config("spark.sql.warehouse.dir", "hdfs://node03:8020/user/hive/warehouse")
+        .config("hive.metastore.uris", "thrift://node03:9083")
+        # .config("spark.sql.hive.metastore.jars", "/opt/cloudera/parcels/CDH-6.3.1-1.cdh6.3.1.p0.1470567/lib/hive/lib/*")
+        .config("spark.sql.hive.metastore.version", "2.1.1")
+        .config("spark.pyspark.driver.python", "/root/anaconda3/envs/spark/bin/python3")
+        .config("spark.pyspark.python", "/root/anaconda3/envs/spark/bin/python3")
+        .enableHiveSupport()
         .getOrCreate()
+    )
 
     register_udf()
     executeSQLFile('dwd.sql')
     executeSQLFile('app.sql')
 
+
+
     app_alertmanager_user_result_df = spark.sql("""
-        select * from goldfish_app.app_alertmanager_user_result
+        select * from new_goldfish_app.app_alertmanager_user_result
     """)
 
     app_alertmanager_user_result_df.write.jdbc(
@@ -75,7 +83,7 @@ if __name__ == '__main__':
 
 
     app_alertmanager_job_result_df = spark.sql("""
-            select * from goldfish_app.app_alertmanager_job_result
+            select * from new_goldfish_app.app_alertmanager_job_result
         """)
 
     app_alertmanager_job_result_df.write.jdbc(
@@ -87,7 +95,7 @@ if __name__ == '__main__':
 
 
     app_alertmanager_job_status_result_df = spark.sql("""
-            select * from goldfish_app.app_alertmanager_job_status_result
+            select * from new_goldfish_app.app_alertmanager_job_status_result
         """)
 
     app_alertmanager_job_status_result_df.write.jdbc(
