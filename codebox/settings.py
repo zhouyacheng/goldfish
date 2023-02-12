@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     "chat",
     "k8s",
     "alertmanager",
+    "terraform",
 ]
 
 MIDDLEWARE = [
@@ -231,6 +232,7 @@ SIMPLE_JWT = {
 
 MEDIA_ROOT = Path("/Users/zyc/Desktop/tmp")
 IAC_WORK_DIR = Path("/Users/zyc/Desktop/tmp/work")
+TERRAFORM_WORK_DIR = Path("/Users/zyc/Desktop/tmp/terraform_work")
 
 CACHES = {
     "default": {
@@ -269,6 +271,7 @@ CELERY_TASK_ROUTES = {
     "k8s.tasks.*" : {"queue": "k8s-1"},
     "jumpserver.tasks.*" : {"queue": "jumpserver-1"},
     "alertmanager.tasks.*" : {"queue": "alertmanager-1"},
+    "terraform.tasks.*" : {"queue": "terraform-1"},
 }
 
 
