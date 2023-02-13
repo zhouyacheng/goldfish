@@ -21,15 +21,15 @@ class TerraformViewSet(GenericViewSet):
 
 
     def create(self, request: Request,*args, **kwargs):
-        action = "task"
+        # action = "task"
         serializer = TerraformCreationModelSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save(created_by=request.user,updated_by=request.user)
-            instance: Terraform = serializer.instance
-            try:
-                execute_task.delay(id=instance.pk, action=action)
-            except Exception as e:
-                print(str(e))
+            # instance: Terraform = serializer.instance
+            # try:
+            #     execute_task.delay(id=instance.pk, action=action)
+            # except Exception as e:
+            #     print(str(e))
             return Response(self.get_serializer(instance=serializer.instance).data,status=status.HTTP_200_OK)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
@@ -119,11 +119,24 @@ class TerraformTaskViewSet(GenericViewSet):
 
 
     def create(self, request: Request,*args, **kwargs):
-        serializer = TerraformTaskCreationModelSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save(created_by=request.user,updated_by=request.user)
-            return Response(self.get_serializer(instance=serializer.instance).data,status=status.HTTP_200_OK)
-        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+        action = "task"
+        terraform_id = request.query_params.get("terraform_id")
+        if not terraform_id and int(terraform_id):
+            return Response({"message": "url查询字符串terraform_id必须传递,且与上传的terraform任务id相关联"})
+        instance = Terraform.objects.filter(pk=int(terraform_id)).first()
+        if not instance:
+            return Response({"message": "未查询到已注册过的Terraform任务信息"},status=status.HTTP_404_NOT_FOUND)
+        task_instance = TerraformTask()
+        task_instance.terraform = instance
+        task_instance.user = instance.user
+        task_instance.project = instance.project
+        task_instance.save()
+        try:
+            execute_task.delay(id=int(terraform_id),task_id=task_instance.pk, action=action)
+            return Response({"task_id": task_instance.pk, "message": "任务执行中..."},status=status.HTTP_200_OK)
+        except Exception as e:
+            print(str(e))
+            return Response({"message": str(e)})
 
     def update(self, request: Request,*args, **kwargs):
         instance = self.get_object()
@@ -150,11 +163,16 @@ class TerraformTaskViewSet(GenericViewSet):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def delete(self, request: Request,*args, **kwargs):
-        instance :TerraformTask = self.get_object()
-        instance.delete_time = timezone.now()
-        instance.is_deleted = 1
-        instance.deleted_by = request.user
-        instance.save()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        action = "destroy"
+        terraform_task_id = kwargs.get("pk")
+        instance: TerraformTask = self.get_object()
+        if not instance:
+            return Response({"message": "未查询到已执行过的Terraform任务信息"},status=status.HTTP_404_NOT_FOUND)
+        try:
+            execute_task.delay(id=instance.terraform.pk,task_id=int(terraform_task_id), action=action)
+            return Response({"task_id": terraform_task_id,"message": "资源删除中..."},status=status.HTTP_200_OK)
+        except Exception as e:
+            print(str(e))
+            return Response({"message": str(e)})
 
 

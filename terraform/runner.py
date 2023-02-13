@@ -16,27 +16,49 @@ class TerraformRunner(object):
     MEDIA_ROOT = settings.MEDIA_ROOT
     TERRAFORM_WORK_DIR = settings.TERRAFORM_WORK_DIR
 
-    def __init__(self ,id: int,action: str="plan"):
+    def __init__(self ,id: int, task_id: int,action: str="plan"):
         self.id = id
+        self.task_id = task_id
         self.instance: Terraform = Terraform.objects.filter(pk=id).first()
         self.action = action
-        self.work_dir = self.TERRAFORM_WORK_DIR.joinpath(self.action,str(id))
+        if self.action == "plan":
+            self.model = TerraformPlan
+        else:
+            self.model = TerraformTask
+        self.task_instance: TerraformPlan|TerraformTask = self.model.objects.get(pk=task_id)
+        self.work_dir = self.TERRAFORM_WORK_DIR.joinpath(self.action, str(self.task_instance.pk))
+        if self.action == "destroy":
+            self.work_dir = self.TERRAFORM_WORK_DIR.joinpath("task", str(self.task_id))
         if not self.work_dir.exists():
             self.work_dir.mkdir(parents=True)
-        # print(f"self.work_dir: {self.work_dir}/{self.instance.name}")
-        if self.action == "plan":
-            self.command = f"cd {self.work_dir}/{self.instance.name} && /usr/local/Cellar/terraform/1.0.11/bin/terraform plan"
-        else:
-            self.command = f"cd {self.work_dir}/{self.instance.name} && /usr/local/Cellar/terraform/1.0.11/bin/terraform apply -auto-approve"
 
 
     def execute(self):
+
+        # print(f"self.work_dir: {self.work_dir}/{self.instance.name}")
+        if self.action == "plan":
+            self.command = f"cd {self.work_dir}/{self.instance.name} && /usr/local/Cellar/terraform/1.0.11/bin/terraform plan"
+        elif self.action == "task":
+            self.command = f"cd {self.work_dir}/{self.instance.name} && /usr/local/Cellar/terraform/1.0.11/bin/terraform apply -auto-approve"
+        elif self.action == "destroy":
+            self.command = f"cd {self.work_dir}/{self.instance.name} && /usr/local/Cellar/terraform/1.0.11/bin/terraform destroy -auto-approve"
+            ret = self.exec_command(self.command)
+            self.task_instance.destroy_error_code = ret[0]
+            self.task_instance.destroy_error_message = ret[1]
+            self.task_instance.destroy_result = ret[1]
+            self.task_instance.save()
+            return self.task_instance
         self.prepare()
         self.init_terraform_workdir()
         ret = self.exec_command(self.command)
-        print(ret[0])
-        print(ret[1])
-        self.clean_up_workdir()
+        # print(ret[0])
+        # print(ret[1])
+        self.task_instance.error_code = ret[0]
+        self.task_instance.error_message = ret[1]
+        self.task_instance.result = ret[1]
+        self.task_instance.save()
+        return self.task_instance
+        # self.clean_up_workdir()
 
 
     def init_terraform_workdir(self):
@@ -47,8 +69,13 @@ class TerraformRunner(object):
             init_command = f"cd {self.work_dir}/{self.instance.name} && {proxy} && /usr/local/Cellar/terraform/1.0.11/bin/terraform init"
         else:
             init_command = f"cd {self.work_dir}/{self.instance.name} && export https_proxy=http://127.0.0.1:8234 http_proxy=http://127.0.0.1:8234 && /usr/local/Cellar/terraform/1.0.11/bin/terraform init"
-        print(f"init_command: {init_command}")
-        self.exec_command(init_command)
+        # print(f"init_command: {init_command}")
+        ret = self.exec_command(init_command)
+
+        self.task_instance.init_error_code = ret[0]
+        self.task_instance.init_error_message = ret[1]
+        self.task_instance.init_result = ret[1]
+        self.task_instance.save()
 
     def prepare(self):
         archive_dir = self.MEDIA_ROOT.joinpath(self.instance.store.name)
@@ -83,23 +110,10 @@ class TerraformRunner(object):
             return ret
         except Exception as e:
             print(str(e))
-            raise ValueError(str(e))
 
     def clean_up_workdir(self):
         shutil.rmtree(self.work_dir)
 
 
-    # command = "ls -l"
-    # command2 = "/usr/local/Cellar/terraform/1.0.11/bin/terraform plan"
-    # command3 = "/usr/local/Cellar/terraform/1.0.11/bin/terraform apply -auto-approve"
-    # command4 = "/usr/local/Cellar/terraform/1.0.11/bin/terraform destroy -auto-approve"
-    # print(exec_command(command1))
-    # print(exec_command(command2)[-1])
-    # print(exec_command(command1)[0],exec_command(command1)[1])
-    # print(exec_command(command2)[0],exec_command(command2)[1])
-    # print(exec_command(command3)[0],exec_command(command3)[1])
-    # ret1 = exec_command(command4)
-    # ret2 = exec_command(command4)
-    # ret3 = exec_command(command4)
-    # ret4 = exec_command(command4)
-    # print(ret4[0],ret4[1])
+
+    # "/usr/local/Cellar/terraform/1.0.11/bin/terraform destroy -auto-approve"

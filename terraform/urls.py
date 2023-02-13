@@ -5,6 +5,8 @@ from . import views
 
 router = SimpleRouter()
 router.register("terraform",views.TerraformViewSet,basename="terraform")
+router.register("plan",views.TerraformPlanViewSet,basename="plan")
+router.register("task",views.TerraformTaskViewSet,basename="task")
 
 
 urlpatterns = [
