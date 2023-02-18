@@ -2,10 +2,14 @@ import os
 import shutil
 import sys
 import subprocess
+import requests
+import socket
 import zipfile
 import tarfile
 from rest_framework.exceptions import APIException
+from urllib.parse import urlparse
 from .models import TerraformPlan,TerraformTask,Terraform
+from iac.models import Repository,Release
 from django.conf import settings
 
 
@@ -78,8 +82,32 @@ class TerraformRunner(object):
         self.task_instance.save()
 
     def prepare(self):
-        archive_dir = self.MEDIA_ROOT.joinpath(self.instance.store.name)
-        # print(f"archive_dir: {archive_dir}")
+        # local store
+        # archive_dir = self.MEDIA_ROOT.joinpath(self.instance.store.name)
+        # gitea store
+        # 'http://xxx:3000/17600192707/my_terrafrom/archive/v0.0.1.tar.gz'
+        repository_instance = Repository.objects.filter(pk=self.instance.repository_id).first()
+        release_instance = Release.objects.filter(repository_id=repository_instance.pk).first()
+        if not release_instance:
+            return "no release"
+        ret = urlparse(release_instance.archive_url)
+        host = self.extract_host(ret.hostname)
+        archive_url = release_instance.archive_url.replace(ret.hostname,host)
+        archive_dir = self.work_dir / archive_url.split("/")[-1]
+        print(f"archive_url: {archive_url}")
+        print(f"archive_dir: {archive_dir}")
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36"
+        }
+
+        response = requests.get(archive_url, headers=headers, stream=True)
+        print(response.status_code)
+        if response.status_code != 200:
+            return
+        else:
+            with open(archive_dir, 'wb') as f:
+                f.write(response.raw.read())
+
         if zipfile.is_zipfile(archive_dir):
             with zipfile.ZipFile(archive_dir, "r") as f:
                 for name in f.namelist():
@@ -99,6 +127,12 @@ class TerraformRunner(object):
     def save(self):
         pass
 
+    def extract_host(self,host: str):
+        try:
+            r = socket.gethostbyname(host)
+            return r
+        except Exception:
+            return None
 
     def exec_command(self,command: str):
         # message = "An error occurred while running the task"

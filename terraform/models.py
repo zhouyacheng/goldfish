@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from common.models import AuthorModel, BaseModel, DatetimeModel
+from iac.models import Repository,Release
 from alertmanager.models import Project
 
 
@@ -39,8 +40,9 @@ class Terraform(
     )
     name = models.CharField(max_length=64)
     tf = models.TextField(null=True)
-    store = models.FileField(upload_to="tf_repository", verbose_name="上传目录")
+    store = models.FileField(upload_to="tf_repository", verbose_name="上传目录",null=True)
     user = models.ForeignKey(User, on_delete=models.PROTECT, db_column="user_id")
+    repository = models.ForeignKey(Repository,on_delete=models.PROTECT,db_column="repository_id",null=True)
 
     class Meta:
         db_table = "terraform"

@@ -38,7 +38,7 @@ def sync_gitea_release(repository_id: int,user_id):
     instance = Repository.objects.filter(pk=repository_id).first()
     if not instance:
         return
-    latest_release_instance: Release = Release.objects.first()
+    latest_release_instance: Release = Release.objects.filter(repository_id=repository_id).first()
     lower = None
     if latest_release_instance:
         lower = latest_release_instance.version

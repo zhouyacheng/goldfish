@@ -265,4 +265,5 @@ celery -A codebox worker  -l INFO -Q iac-1          # ansible任务运行队列
 celery -A codebox worker  -l INFO -Q k8s-1          # k8s任务运行队列
 celery -A codebox worker  -l INFO -Q jumpserver-1   # spark导入资产任务运行队列
 celery -A codebox worker  -l INFO -Q alertmanager-1 # 告警短信发送任务运行队列
+celery -A codebox worker  -l INFO -Q terraform-1    # terraform任务运行队列
 ```
